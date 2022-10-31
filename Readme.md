@@ -3,17 +3,12 @@
 ## Overview 
 All regular C or C++ projects that use files are based on the [Posix File Operations](https://www.mkompf.com/cplus/posixlist.html). In Microcontrollers things are quite different and you use a SD library which has it's own API to store files on a SD drive. 
 
-If you want to store larger amount of data on a Microcontroller you can also use the Program Memory (PROGMEM). Popular implementations are:
-
-- SPIFFS
-- FATFS
-
-With this you are required to upload the files in a separate step.
+If you want to store larger amount of data on a Microcontroller you can also use the Program Memory (PROGMEM). 
 
 The goals of this project is to provide __Posix File API__ support to Microcontrollers in order to 
 
+- deplay and access files in PROGMEM (w/o separate file deployment step)
 - access files SD drives (if not supported by default)
-- access files in PROGMEM
 
 so that existing projects can be easily migrated to run on microcontrollers. 
 
