@@ -7,8 +7,8 @@ If you want to store larger amount of data on a Microcontroller you can also use
 
 The goals of this project is to provide __Posix File API__ support to Microcontrollers in order to 
 
-- deplay and access files in PROGMEM (w/o separate file deployment step)
-- access files SD drives (if not supported by default)
+- readonly access of files in PROGMEM (w/o separate file deployment step)
+- access files on SD drives (if not supported by default)
 
 so that existing projects can be easily migrated to run on microcontrollers. 
 

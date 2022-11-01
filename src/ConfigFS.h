@@ -50,6 +50,11 @@
 #  define off_t long
 #  define NO_STAT
 #  define FILENAME_MAX 80
+#  define FS_LOGGING_ACTIVE 0
+#endif
+
+#ifndef FS_LOGGING_ACTIVE
+#define FS_LOGGING_ACTIVE 1
 #endif
 
 // ********** Common **************
