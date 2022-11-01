@@ -47,31 +47,31 @@ public:
     filename_offset = strlen(path);
     // myfs.flags = ESP_VFS_FLAG_CONTEXT_PTR;
     myfs.write = [](int fd, const void *data, size_t size) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.write(fd, data, size);
     };
     myfs.open = [](const char *path, int flags, int mode) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.open(path, flags, mode);
     };
     myfs.fstat = [](int fd, struct stat *st) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.fstat(fd, st);
     };
     myfs.close = [](int fd) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.close(fd);
     };
     myfs.read = [](int fd, void *data, size_t size) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.read(fd, data, size);
     };
     myfs.lseek = [](int fd, off_t offset, int mode) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.lseek(fd, offset, mode);
     };
     myfs.opendir = [](const char *name) {
-      FileSystem &fs = DefaultRegistry.fileSystemByName("FileSystemMemory");
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME);
       return fs.opendir(name);
     };
     myfs.readdir = [](DIR *pdir) {
@@ -295,6 +295,7 @@ public:
 protected:
   // Files in Directory
   Vector<RegEntry *> files;
+  const char* FS_NAME = "FileSystemMemory";
 
   // gets a file entry by index
   RegEntry &getEntry(int fd) {

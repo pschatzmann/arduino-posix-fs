@@ -169,11 +169,13 @@ public:
     return 0;
   }
 
-  virtual const char *name() override { return "FileSystemSD"; }
+  virtual const char *name() override { return FS_NAME; }
 
 protected:
   ES_SD *p_fs = nullptr;
   Vector<File *> files;
+  const char* FS_NAME = "FileSystemSD";
+
 #ifdef ESP32
   esp_vfs_t myfs;
 #endif

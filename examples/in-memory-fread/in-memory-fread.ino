@@ -12,13 +12,13 @@ void setup() {
   assert(fsm.size()==1);
 
   // read file
-  int fd = open("/mem/test1", O_RDONLY);
-  if (fd < 0) {
+  FILE *fp = fopen("/mem/test1", "rb");
+  if (fp == nullptr) {
     Serial.println("fopen failed");
     return;
   }
   char buffer[1024];
-  int len = read(fd, buffer, 1024);
+  int len = fread(buffer, 1, 1024, fp);
   if (len != strlen(data1)+1) {
     Serial.print("fread failed with ");
     Serial.println(len);
