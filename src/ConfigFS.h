@@ -14,6 +14,7 @@
 #  define FILE_MODE_STR
 #  define SEEK_MODE_SUPPORTED
 #  define USE_DUMMY_SD_IMPL
+#  define SUPPORTS_SD
 #  include "FS.h"
 #endif
 
@@ -28,7 +29,7 @@
 #  define NO_DIR
 #  define FILE_MODE_STR
 #  define SEEK_MODE_SUPPORTED
-#  include "FS.h"
+//#  include "FS.h"
 #  include "sys/stat.h"
 #endif
 
@@ -62,9 +63,9 @@
 // minimum implementation for DIR from sys/types.h>
 #ifdef NO_DIR
 struct DIR {};
-DIR *opendir(const char *name);
-int closedir(DIR *dirp);
-struct dirent *readdir(DIR *dirp);
+struct DIR *opendir(const char *name);
+int closedir(struct DIR *dirp);
+struct dirent *readdir(struct DIR *dirp);
 #endif
 
 // minimum implementation for dirent.h

@@ -37,7 +37,7 @@ public:
     return filename_offset;
   }
 
-  operator boolean() { return path_prefix != nullptr; }
+  operator bool() { return path_prefix != nullptr; }
 
   virtual const char *name() { return "FileSystem"; }
   // file operations
@@ -102,7 +102,7 @@ struct RegEntry {
   /// index in the vector of open files
   int fileID = 0; // index pos in open_files vector
   /// returns true when the content is defined
-  virtual operator boolean() { return content != nullptr; }
+  virtual operator bool() { return content != nullptr; }
 };
 
 // Invalid RegEntry

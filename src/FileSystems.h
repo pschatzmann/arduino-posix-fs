@@ -1,5 +1,8 @@
 #pragma once
+#include "ConfigFS.h"
 #include "LoggerFS.h"
 #include "FileSystems/FileSystemMemory.h"
-#include "FileSystems/FileSystemSD.h"
+#ifdef SUPPORTS_SD
+#  include "FileSystems/FileSystemSD.h"
+#endif
 #include "FileSystems/PosixAPI.h"

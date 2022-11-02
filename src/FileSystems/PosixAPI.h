@@ -24,16 +24,16 @@
   return file_systems::DefaultRegistry.fileSystem(file).write(file, ptr, len);
 }
 
- DIR *opendir(const char *name){
+ struct DIR *opendir(const char *name){
   return file_systems::DefaultRegistry.fileSystem(name).opendir(name);
 }
 
- int closedir(DIR *dirp){
+ int closedir(struct DIR *dirp){
   file_systems::FileSystem *pfs = static_cast<file_systems::DIR_BASE*>(dirp)->p_file_system;
   return pfs->closedir(dirp);
 }
 
- struct dirent *readdir(DIR *dirp){
+ struct dirent *readdir(struct DIR *dirp){
   file_systems::FileSystem *pfs = static_cast<file_systems::DIR_BASE*>(dirp)->p_file_system;
   return pfs->readdir(dirp);
 }
