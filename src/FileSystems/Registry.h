@@ -46,11 +46,13 @@ public:
   virtual ssize_t read(int fd, void *data, size_t size) { return 0; }
   virtual int close(int fd) { return -1; };
   virtual int fstat(int fd, struct stat *st) { return -1; };
+  virtual int stat(const char *pathname, struct stat *statbuf){ return -1; };
   virtual off_t lseek(int fd, off_t offset, int mode) { return -1; };
   // directory operations
   virtual DIR *opendir(const char *name) { return nullptr; }
   virtual dirent *readdir(DIR *pdir) { return nullptr; }
-  virtual int closedir(DIR *pdir) { return 0; }
+  virtual int closedir(DIR *pdir) { return -1; }
+  virtual int unlink(const char* path) { return -1; }
 
 protected:
   const char *path_prefix = "@";
@@ -66,7 +68,7 @@ protected:
  * @copyright GPLv3
  * 
  */
-struct DIR_BASE : public DIR {
+struct DIR_BASE : public _DIR {
   int magic_id = 0;
   FileSystem *p_file_system = nullptr;
 };

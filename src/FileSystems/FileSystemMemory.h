@@ -60,6 +60,10 @@ public:
       FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
       return fs.fstat(fd, st);
     };
+    myfs.stat = [](const char*fn, struct stat *st) {
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      return fs.stat(fn, st);
+    };
     myfs.close = [](int fd) {
       FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
       return fs.close(fd);
@@ -92,6 +96,11 @@ public:
       }
       return ext->p_file_system->closedir(ext);
     };
+    myfs.unlink = [](const char* fn) {
+      FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      return fs.unlink(fn);
+   };
+
     esp_vfs_register(path, &myfs, this);
 #endif
   };
@@ -208,6 +217,21 @@ public:
     return 0;
   }
 
+  int stat(const char *path, struct stat *st){
+    RegEntry &mem_entry = get(path);
+    if (!mem_entry) {
+      FS_LOGW("mem_entry invalid");
+      return -1;
+    }
+    RegContentMemory *p_memory = getContent(mem_entry);
+    // st->st_ino = entry.fileID;
+    st->st_size = p_memory->size;
+    // st->st_mode = entry->isDir() ? S_IFDIR : S_IFREG;
+    st->st_mode = S_IFREG;
+    FS_LOGD("=> stat path=%s -> size=%d ", path, st->st_size);
+    return 0;
+  }
+
   off_t lseek(int fd, off_t offset, int whence) override {
     FS_TRACED();
     RegEntry &entry = DefaultRegistry.getEntry(fd);
@@ -290,6 +314,11 @@ public:
       delete p_dir;
     }
     return 0;
+  }
+
+  int unlink(const char* path){
+    FS_LOGE("unlink not supported");
+    return -1;
   }
 
   virtual const char *name() { return FS_NAME_MEM; }

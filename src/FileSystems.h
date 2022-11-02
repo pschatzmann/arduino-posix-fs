@@ -5,4 +5,3 @@
 #ifdef SUPPORTS_SD
 #  include "FileSystems/FileSystemSD.h"
 #endif
-#include "FileSystems/PosixAPI.h"

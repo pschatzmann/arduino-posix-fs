@@ -25,8 +25,8 @@
 #  define USE_DUMMY_SD_IMPL
 #elif defined(TARGET_RP2040)
 #  define POSIX_C_METHOD_IMPLEMENTATION 1
-#  define NO_DIRENT
-#  define NO_DIR
+#  define ADD_FS_DIRENT
+#  define ADD_FS_DIR
 #  define FILE_MODE_STR
 #  define SEEK_MODE_SUPPORTED
 //#  include "FS.h"
@@ -36,20 +36,21 @@
 // ********** STM32 **************
 #ifdef ARDUINO_ARCH_STM32 
 #  define POSIX_C_METHOD_IMPLEMENTATION 1
-#  define NO_DIRENT
-#  define NO_DIR
+#  define ADD_FS_DIRENT
+#  define ADD_FS_DIR
+#  define ADD_FS_STDIO_DEFINES
 #  define FILE_MODE_CHR
 #  include "sys/stat.h"
 #endif
 
 #ifdef ARDUINO_ARCH_AVR
 #  define POSIX_C_METHOD_IMPLEMENTATION 1
-#  define NO_DIRENT
-#  define NO_DIR
+#  define ADD_FS_DIRENT
+#  define ADD_FS_DIR
 #  define FILE_MODE_STR
 #  define ssize_t long
 #  define off_t long
-#  define NO_STAT
+#  define ADD_FS_STAT
 #  define FILENAME_MAX 80
 #  define FS_LOGGING_ACTIVE 0
 #endif
@@ -59,17 +60,43 @@
 #endif
 
 // ********** Common **************
+#ifdef ADD_FS_STDIO_DEFINES
+#ifdef __cplusplus
+extern "C" {
+#endif
+ int open(const char *name, int flags, int mode);
+ int close(int file);
+ int fstat(int file, struct stat *st);
+ int read(int file, void *ptr, size_t len);
+ int write(int file, const void *ptr, size_t len);
+#ifdef __cplusplus
+}
+#endif
+#endif
+
+
 
 // minimum implementation for DIR from sys/types.h>
-#ifdef NO_DIR
-struct DIR {};
-struct DIR *opendir(const char *name);
-int closedir(struct DIR *dirp);
-struct dirent *readdir(struct DIR *dirp);
+#ifdef ADD_FS_DIR
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct _DIR {} DIR;
+DIR *opendir(const char *name);
+int closedir(DIR *dirp);
+struct dirent *readdir(DIR *dirp);
+int unlink(const char *pathname);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 // minimum implementation for dirent.h
-#ifdef NO_DIRENT
+#ifdef ADD_FS_DIRENT
 #define MAXNAMLEN 1024
 #define DT_REG 8
 #define DT_DIR 4
@@ -80,7 +107,7 @@ struct dirent {
 #endif
 
 // minimum implementation for stat.h
-#ifdef NO_STAT
+#ifdef ADD_FS_STAT
 #define S_IFREG 0100000
 #define S_IFDIR 0040000
 #define S_IFMT  00170000
