@@ -68,7 +68,7 @@ protected:
  * @copyright GPLv3
  * 
  */
-struct DIR_BASE : public _DIR {
+struct DIR_BASE : public DIR {
   int magic_id = 0;
   FileSystem *p_file_system = nullptr;
 };

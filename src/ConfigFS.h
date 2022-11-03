@@ -74,16 +74,14 @@ extern "C" {
 #endif
 #endif
 
-
-
 // minimum implementation for DIR from sys/types.h>
 #ifdef ADD_FS_DIR
+struct DIR_ {};
+typedef struct DIR_ DIR;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct _DIR {} DIR;
 DIR *opendir(const char *name);
 int closedir(DIR *dirp);
 struct dirent *readdir(DIR *dirp);
@@ -108,9 +106,11 @@ struct dirent {
 
 // minimum implementation for stat.h
 #ifdef ADD_FS_STAT
-#define S_IFREG 0100000
-#define S_IFDIR 0040000
-#define S_IFMT  00170000
+# ifndef S_IFREG
+# define S_IFREG 0100000
+# define S_IFDIR 0040000
+# define S_IFMT  00170000
+#endif
 
 struct stat {
   size_t st_size=0;

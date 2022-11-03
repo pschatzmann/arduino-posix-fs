@@ -83,18 +83,18 @@ public:
     myfs.readdir = [](DIR *pdir) {
       DIR_EXT *ext = (DIR_EXT *)pdir;
       if (ext->magic_id != MAGIC_DIR_EXT) {
-        FS_LOGE("invalid FileID %d", ext->dd_vfs_idx);
+        FS_LOGE("invalid FileID %d", ext->magic_id);
         return (dirent *)nullptr;
       }
-      return ext->p_file_system->readdir(ext);
+      return ext->p_file_system->readdir(pdir);
     };
     myfs.closedir = [](DIR *pdir) {
       DIR_EXT *ext = (DIR_EXT *)pdir;
       if (ext->magic_id != MAGIC_DIR_EXT) {
-        FS_LOGE("invalid FileID %d", ext->dd_vfs_idx);
+        FS_LOGE("invalid FileID %d", ext->magic_id);
         return -1;
       }
-      return ext->p_file_system->closedir(ext);
+      return ext->p_file_system->closedir(pdir);
     };
     myfs.unlink = [](const char* fn) {
       FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
@@ -286,7 +286,7 @@ public:
     result->actual_dirent.d_type = DT_REG;
     result->pos = 0;
     FS_LOGD("=> opendir: %d files", result->files.size());
-    return result;
+    return (DIR *)result;
   }
 
   dirent *readdir(DIR *dir) override {
