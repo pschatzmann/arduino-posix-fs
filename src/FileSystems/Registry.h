@@ -227,7 +227,9 @@ public:
         return *p_fs;
       }
     }
-    FS_LOGE("fileSystem: No filesystem for %s", path);
+    if (file_systems.isEmpty(){
+      FS_LOGE("fileSystem: No filesystem for %s", path);
+    }
     return NoFileSystem;
   }
 
