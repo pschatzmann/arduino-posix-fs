@@ -8,6 +8,12 @@
 #  define LOG_METHOD __PRETTY_FUNCTION__
 #endif
 
+// ********** OSX/Linux **************
+#ifdef IS_DESKTOP
+#  include "sys/stat.h"
+#  include <dirent.h>
+#endif
+
 // ********** ESP33 **************
 #ifdef ESP32
 #  define POSIX_C_METHOD_IMPLEMENTATION 0
