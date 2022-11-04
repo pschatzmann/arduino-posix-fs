@@ -322,7 +322,8 @@ public:
   }
 
   virtual void* mem_map(const char* path,size_t *p_size) { 
-    RegEntry &entry = get(path);
+    const char* start = path+filenameOffset();
+    RegEntry &entry = get(start);
     if (!entry){
       FS_LOGW("mem_map: %s not found", path);
       return nullptr;
