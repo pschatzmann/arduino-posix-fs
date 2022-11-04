@@ -4,9 +4,6 @@
 #include "Collections/Vector.h"
 #include "ConfigFS.h"
 #include "LoggerFS.h"
-#ifdef ESP32
-#include "esp_vfs.h"
-#endif
 
 namespace file_systems {
 
@@ -53,6 +50,8 @@ public:
   virtual dirent *readdir(DIR *pdir) { return nullptr; }
   virtual int closedir(DIR *pdir) { return -1; }
   virtual int unlink(const char* path) { return -1; }
+  // method for memory file to get the data content
+  virtual void* mem_map(const char* path,size_t *p_size) { return NULL; }
 
 protected:
   const char *path_prefix = "@";
@@ -110,12 +109,11 @@ struct RegEntry {
 // Invalid RegEntry
 inline RegEntry NoRegEntry;
 // Invalid FileSystem
-inline FileSystem NoFileSystem(nullptr);
+inline FileSystem NoFileSystem("/null");
 // Shared vector for all open files
 inline Vector<RegEntry *> open_files;
 // Shared vector for all file systems
 inline Vector<FileSystem *> file_systems;
-
 
 /**
  * @brief Registry which manages open files
@@ -254,3 +252,4 @@ protected:
 inline Registry DefaultRegistry;
 
 } // namespace file_systems
+

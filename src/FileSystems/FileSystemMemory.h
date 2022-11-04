@@ -158,13 +158,13 @@ public:
     FS_TRACED();
     RegEntry &mem_entry = get(path);
     if (!mem_entry) {
-      FS_LOGW("mem_entry invalid");
+      FS_LOGW("open: mem_entry invalid %s", path);
       return -1;
     }
     RegEntry &entry = DefaultRegistry.openFile(path, *this);
     // make content available in open files
     if (&entry == &NoRegEntry) {
-      FS_LOGW("entry invalid");
+      FS_LOGW("open: entry invalid: %s", path);
       return -1;
     }
     entry.content = mem_entry.content;
@@ -319,6 +319,23 @@ public:
   int unlink(const char* path){
     FS_LOGE("unlink not supported");
     return -1;
+  }
+
+  virtual void* mem_map(const char* path,size_t *p_size) { 
+    RegEntry &entry = get(path);
+    if (!entry){
+      FS_LOGW("mem_map: %s not found", path);
+      return nullptr;
+    }
+    RegContentMemory *p_memory = getContent(entry);
+    if (p_memory == nullptr) {
+      FS_LOGE("mem_map: %s no RegContentMemory", path);
+      return nullptr;
+    }
+    if (p_size!=nullptr){
+      *p_size = p_memory->size;
+    }
+    return (void*)p_memory->data;
   }
 
   virtual const char *name() { return FS_NAME_MEM; }

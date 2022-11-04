@@ -16,6 +16,7 @@
 #  define USE_DUMMY_SD_IMPL
 #  define SUPPORTS_SD
 #  include "FS.h"
+#  include "esp_vfs.h"
 #endif
 
 // ********** RP2040 **************
@@ -23,6 +24,17 @@
 // hack to prevent dir.h from loading!
 #  define POSIX_C_METHOD_IMPLEMENTATION 0
 #  define USE_DUMMY_SD_IMPL
+#  define MAXNAMLEN 160
+#  define MBED_HACK
+#include "platform/mbed_toolchain.h"
+#include "mbed_retarget.h"
+
+#define _DIR DIR_impl
+struct DIR_impl {
+    void *handle;
+    struct dirent entry;
+};
+
 #elif defined(TARGET_RP2040)
 #  define POSIX_C_METHOD_IMPLEMENTATION 1
 #  define ADD_FS_DIRENT
@@ -120,4 +132,17 @@ struct stat {
 
 #define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
 #define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+
 #endif
+
+// ********** Common Methods *****
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void* mem_map(const char* path, size_t *p_size); 
+
+#ifdef __cplusplus
+}
+#endif
+

@@ -4,18 +4,18 @@
 #include <stdio.h>
 #include "FileSystems/Registry.h"
 
+
 // To prevent linker errors in STM32
 extern "C" int _unlink(const char*);
 extern "C" int _stat(const char *pathname, struct stat *statbuf);
 extern "C" int _open(const char *name, int flags, int mode);
 
+void* mem_map(const char* path, size_t *p_size) { 
+  return file_systems::DefaultRegistry.fileSystemByName("FileSystemMemory").mem_map(path, p_size);
+}
 
 int open(const char *name, int flags, int mode=0) {
   return file_systems::DefaultRegistry.fileSystem(name).open(name, flags, mode);
-}
-
-int _open(const char *name, int flags, int mode=0){
-  return open(name, flags, mode);
 }
 
 int close(int file) { 
@@ -28,11 +28,6 @@ int fstat(int file, struct stat *statbuf) {
 
 int stat(const char *pathname, struct stat *statbuf){
   return file_systems::DefaultRegistry.fileSystem(pathname).stat(pathname, statbuf);
-}
-
-
-int _stat(const char *pathname, struct stat *statbuf){
-  return stat(pathname, statbuf);
 }
 
 int read(int file, void *ptr, size_t len) {
@@ -61,13 +56,17 @@ int unlink(const char *pathname) {
   return file_systems::DefaultRegistry.fileSystem(pathname).unlink(pathname);
 }
 
-// int unlink_r(const char *pathname) {
-//   return unlink(pathname);
-// }
+#ifdef MBED_HACK
+int _open(const char *name, int flags, int mode=0){
+  return open(name, flags, mode);
+}
+int _stat(const char *pathname, struct stat *statbuf){
+  return stat(pathname, statbuf);
+}
 int _unlink(const char *pathname) {
   return unlink(pathname);
 }
-
-
+#endif
 
 #endif
+
