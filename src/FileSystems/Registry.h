@@ -227,8 +227,10 @@ public:
         return *p_fs;
       }
     }
-    if (file_systems.isEmpty(){
-      FS_LOGE("fileSystem: No filesystem for %s", path);
+    if (!file_systems.empty()){
+      FS_LOGE("No filesystem for %s", path);
+    } else {
+      FS_LOGD("No filesystems available");
     }
     return NoFileSystem;
   }
