@@ -281,7 +281,7 @@ public:
     // find matching files
     for (RegEntry *entry : files) {
       // cut off prefix from file names
-      const char *file_name = entry->file_name + filenameOffset();
+      const char *file_name = entry->file_name;
       FS_LOGD("-> %s %s", file_name, name);
       if (Str(file_name).startsWith(name)) {
         FS_LOGD("--> %s %s", file_name, name);
