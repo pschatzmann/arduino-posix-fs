@@ -159,7 +159,7 @@ public:
       new_entry->fileID = size();
       open_files.push_back(new_entry);
     }
-    FS_LOGE("=> total open files %d", size());
+    FS_LOGD("=> total open files %d", size());
     return *new_entry;
   }
 

@@ -110,6 +110,13 @@ public:
     return 0;
   }
 
+  int stat(const char *path, struct stat *st){
+    File file = getFS().open(path, getMode(flags));
+    st->st_size = p_f->size();
+    st->st_mode = p_f->isDirectory() ? S_IFDIR : S_IFREG;
+    file.close();
+  }
+
   off_t lseek(int fd, off_t offset, int mode) {
     FS_TRACED();
     // SeekMode { SeekSet = 0, SeekCur = 1, SeekEnd = 2};
