@@ -169,9 +169,13 @@ public:
       FS_LOGW("open: entry invalid: %s", path);
       return -1;
     }
+    RegContentMemory* p_ref = (RegContentMemory*)mem_entry.content;
     // copy content, so that we can delete the entry.content when it is closed
-    entry.content = new RegContentMemory();
-    *entry.content = *mem_entry.content;
+    RegContentMemory* p_new = new RegContentMemory();
+    p_new->size  = p_ref->size;
+    p_new->data  = p_ref->data;
+    p_new->current_pos = 0;
+    entry.content = p_new;
     return entry.fileID;
   }
 
@@ -186,16 +190,20 @@ public:
     if (size == 0) {
       return 0;
     }
+    // If we did not find any content we return 0
     RegEntry &entry = DefaultRegistry.getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr) {
       FS_LOGW("No content for %s", entry.file_name);
       return 0;
     }
+    // If we are at the end we return 0
     int pos = p_memory->current_pos;
     if(pos>=p_memory->size){
+      FS_LOGD("=> read: pos=%d file-size=%d fd=%d -> %d", pos, p_memory->size, fd, 0);
       return 0;
     }
+    // Copy requested data
     int len = min(size, p_memory->size - pos);
     p_memory->current_pos += len;
     memmove(data, p_memory->data + pos, len);
