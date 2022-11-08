@@ -90,6 +90,7 @@ struct RegEntry {
   RegEntry() = default;
   ~RegEntry() {
     if (content != nullptr) {
+      FS_LOGD("~RegEntry: %s", file_name);
       delete content;
       content = nullptr;
     }
@@ -193,9 +194,6 @@ public:
     FS_TRACED();
     RegEntry *p_entry = open_files[fileID];
     if (p_entry != nullptr) {
-      if (p_entry->content != nullptr) {
-        delete p_entry->content;
-      }
       delete p_entry;
       open_files[fileID] = nullptr;
     }

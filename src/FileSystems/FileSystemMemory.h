@@ -169,7 +169,9 @@ public:
       FS_LOGW("open: entry invalid: %s", path);
       return -1;
     }
-    entry.content = mem_entry.content;
+    // copy content, so that we can delete the entry.content when it is closed
+    entry.content = new RegContentMemory();
+    *entry.content = *mem_entry.content;
     return entry.fileID;
   }
 
