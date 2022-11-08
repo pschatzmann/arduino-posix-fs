@@ -127,7 +127,7 @@ public:
   /// adds a in memory file
   bool add(const char *name, const void *data, size_t len) {
     const char *name_internal = name+filenameOffset();
-    FS_LOGD("add: name='%s' len=%d", name_internal, len);
+    FS_LOGI("add: name='%s' len=%d", name_internal, len);
     if (&DefaultRegistry.fileSystem(name) != this) {
       FS_LOGE("File %s not vaid for  %s in %s", name, this->pathPrefix(),
               DefaultRegistry.fileSystem(name).name());
@@ -157,7 +157,7 @@ public:
 
   /// file operations
   int open(const char *path, int flags, int mode) override {
-    FS_LOGD("open: path='%s' ", path);
+    FS_LOGI("open: path='%s' ", path);
     RegEntry &mem_entry = get(path);
     if (!mem_entry) {
       FS_LOGW("open: file '%s' does not exist", path);
@@ -182,7 +182,7 @@ public:
   };
 
   ssize_t read(int fd, void *data, size_t size) override {
-    FS_LOGD("read: fd='%d' size=%d", fd, (int)size);
+    FS_LOGI("read: fd='%d' size=%d", fd, (int)size);
     if (size == 0) {
       return 0;
     }
@@ -204,13 +204,13 @@ public:
   }
 
   int close(int fd) override {
-    FS_LOGD("close: fd='%d' ", fd);
+    FS_LOGI("close: fd='%d' ", fd);
     DefaultRegistry.closeFile(fd);
     return 0;
   }
 
   int fstat(int fd, struct stat *st) override {
-    FS_LOGD("fstat: fd='%d' ", fd);
+    FS_LOGI("fstat: fd='%d' ", fd);
     RegEntry &entry = DefaultRegistry.getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr || !*p_memory) {
@@ -219,8 +219,8 @@ public:
     return statContent(false, entry.file_name,p_memory, st);
   }
 
-  int stat(const char *path, struct stat *st){
-    FS_LOGD("stat: path='%s' ", path);
+  int stat(const char *path, struct stat *st) override {
+    FS_LOGI("stat: path='%s' ", path);
     // find file in registry
     RegEntry &mem_entry = get(path);
     // if not found it might be a directory
@@ -239,7 +239,7 @@ public:
   }
 
   off_t lseek(int fd, off_t offset, int whence) override {
-    FS_LOGD("lseek: fd='%%' ", fd);
+    FS_LOGI("lseek: fd='%%' ", fd);
     RegEntry &entry = DefaultRegistry.getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr) {
@@ -275,7 +275,7 @@ public:
 
   // directory operations
   DIR *opendir(const char *name) override {
-    FS_LOGD("opendir(%s)", name);
+    FS_LOGI("opendir(%s)", name);
     DIR_EXT *result = new DIR_EXT();
     result->p_file_system = this;
     result->dir = name;
@@ -297,7 +297,7 @@ public:
   }
 
   dirent *readdir(DIR *dir) override {
-    FS_TRACED();
+    FS_TRACEI();
     DIR_EXT *p_dir = (DIR_EXT *)dir;
     if (p_dir->pos >= p_dir->files.size()) {
       FS_LOGD("==> readdir: pos=%d size=%d END", p_dir->pos,
@@ -322,7 +322,7 @@ public:
   }
 
   int closedir(DIR *dir) override {
-    FS_TRACED();
+    FS_TRACEI();
     DIR_EXT *p_dir = (DIR_EXT *)dir;
     if (p_dir != nullptr) {
       delete p_dir;
@@ -330,14 +330,14 @@ public:
     return 0;
   }
 
-  int unlink(const char* path){
+  int unlink(const char* path) override {
     FS_LOGE("unlink not supported");
     return -1;
   }
 
-  virtual void* mem_map(const char* path,size_t *p_size) { 
+  virtual void* mem_map(const char* path,size_t *p_size) override { 
     const char* name_internal = path+filenameOffset();
-    FS_LOGD("mem_map(%s)", name_internal);
+    FS_LOGI("mem_map(%s)", name_internal);
     RegEntry &entry = get(name_internal);
     if (!entry){
       FS_LOGW("mem_map: %s not found", name_internal);
@@ -354,7 +354,7 @@ public:
     return (void*)p_memory->data;
   }
 
-  virtual const char *name() { return FS_NAME_MEM; }
+  virtual const char *name() override { return FS_NAME_MEM; }
 
 protected:
   // Files in Directory

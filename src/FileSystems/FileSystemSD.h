@@ -73,7 +73,7 @@ public:
     DefaultRegistry.setFileSystemForSearch(this);
   }
 
-  int open(const char *path, int flags, int mode) {
+  int open(const char *path, int flags, int mode) override{
     FS_TRACED();
     File file = getFS().open(path, getMode(flags));
     if (!file) {
@@ -83,17 +83,17 @@ public:
     return addOpenFile(path, file);
   }
 
-  ssize_t write(int fd, const void *data, size_t size) {
+  ssize_t write(int fd, const void *data, size_t size) override{
     FS_TRACED();
     return getFile(fd).write((uint8_t *)data, size);
   }
 
-  ssize_t read(int fd, void *data, size_t size) {
+  ssize_t read(int fd, void *data, size_t size) override{
     FS_TRACED();
     return getFile(fd).read((uint8_t *)data, size);
   }
 
-  int close(int fd) {
+  int close(int fd) override{
     FS_TRACED();
     getFile(fd).close();
     free(files[fd]);
@@ -101,7 +101,7 @@ public:
     return 0;
   }
 
-  int fstat(int fd, struct stat *st) {
+  int fstat(int fd, struct stat *st) override{
     FS_TRACED();
     File *p_f = &getFile(fd);
     st->st_size = p_f->size();
@@ -110,14 +110,14 @@ public:
     return 0;
   }
 
-  int stat(const char *path, struct stat *st){
+  int stat(const char *path, struct stat *st) override{
     File file = getFS().open(path, getMode(flags));
     st->st_size = p_f->size();
     st->st_mode = p_f->isDirectory() ? S_IFDIR : S_IFREG;
     file.close();
   }
 
-  off_t lseek(int fd, off_t offset, int mode) {
+  off_t lseek(int fd, off_t offset, int mode) override{
     FS_TRACED();
     // SeekMode { SeekSet = 0, SeekCur = 1, SeekEnd = 2};
     #ifdef SEEK_MODE_SUPPORTED
@@ -128,7 +128,7 @@ public:
     #endif
   }
 
-  DIR *opendir(const char *path) {
+  DIR *opendir(const char *path) override{
     FS_LOGD("opendir: %s", path);
     // remove path prefix if necessary
     const char *file_name = path + filenameOffset();
@@ -151,7 +151,7 @@ public:
     return result;
   }
 
-  dirent *readdir(DIR *dir) {
+  dirent *readdir(DIR *dir) override{
     FS_TRACED();
     DIR_SD *pdir = (DIR_SD *)dir;
     File next = pdir->dir.openNextFile();
@@ -168,7 +168,7 @@ public:
     return &info;
   }
 
-  int closedir(DIR *pdir) {
+  int closedir(DIR *pdir) override{
     FS_TRACED();
     if (pdir != nullptr) {
       free(pdir);
