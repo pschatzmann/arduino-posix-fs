@@ -271,10 +271,12 @@ public:
       }
       break;
     case SEEK_END:
-      p_memory->current_pos = p_memory->size - offset;
+      long pos = p_memory->size - offset;
       if (p_memory->current_pos < 0) {
         p_memory->current_pos = 0;
         offset = offset + p_memory->current_pos;
+      } else {
+        p_memory->current_pos = pos;
       }
       break;
     }

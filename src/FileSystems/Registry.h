@@ -88,13 +88,18 @@ struct RegContent {
  */
 struct RegEntry {
   RegEntry() = default;
-  ~RegEntry() {
+  virtual ~RegEntry() {
+    assert(memory_guard==12345);
+#ifdef ESP32
+    assert(heap_caps_check_integrity_all(true));
+#endif
     if (content != nullptr) {
       FS_LOGD("~RegEntry: %s", file_name);
       delete content;
       content = nullptr;
     }
   }
+  int memory_guard = 12345;
   /// reference to the file system
   FileSystem *p_file_system = nullptr;
   /// the name of the file
