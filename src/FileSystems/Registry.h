@@ -29,16 +29,12 @@ public:
   virtual bool isValidFile(const char *path) {
     return (Str(path).startsWith(pathPrefix()));
   }
-  /// The ESP32 is removing the path prefix for all file processing 
-  virtual int filenameOffset() {
-    return filename_offset;
-  }
 
   operator bool() { return path_prefix != nullptr; }
 
   virtual const char *name() { return "FileSystem"; }
   // file operations
-  virtual int open(const char *path, int flags, int mode) { return -1; }
+  virtual int open(const char *path, int flags, int mode) { FS_TRACEE(); return -1; }
   virtual ssize_t write(int fd, const void *data, size_t size) { return 0; }
   virtual ssize_t read(int fd, void *data, size_t size) { return 0; }
   virtual int close(int fd) { return -1; };
@@ -59,6 +55,16 @@ protected:
 #ifdef ESP32
   esp_vfs_t myfs;
 #endif
+
+  /// The ESP32 is removing the path prefix for all file processing 
+  virtual int filenameOffset() {
+    return filename_offset;
+  }
+  // Converts the name to the internal name (removing the path prefix)
+  const char* internalFileName(const char* name, bool withPrefix){
+    return withPrefix && FileSystem::isValidFile(name) ? name + filenameOffset() : name;
+  }
+
 };
 
 /**
@@ -171,9 +177,10 @@ public:
 
   /// Determines the file system for a file path
   FileSystem &fileSystem(const char *path) {
-    FS_TRACED();
+    FS_LOGD("fileSystem(%s)", path);
     for (auto p_fs : file_systems) {
       if (p_fs->FileSystem::isValidFile(path)) {
+        FS_LOGD("-> %s", p_fs->name());
         return *p_fs;
       }
     }

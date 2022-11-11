@@ -14,7 +14,7 @@ void setup() {
   // read file
   int fd = open("/mem/test1", O_RDONLY);
   if (fd < 0) {
-    Serial.println("fopen failed");
+    Serial.println("open failed");
     return;
   }
   char buffer[1024];

@@ -46,8 +46,9 @@ public:
   FileSystemMemory(const char *path) : FileSystem(path) {
     setFileSystemForSearch();
     DefaultRegistry.add(*this);
-#ifdef ESP32
     filename_offset = strlen(path);
+
+#ifdef ESP32
     // myfs.flags = ESP_VFS_FLAG_CONTEXT_PTR;
     myfs.write = [](int fd, const void *data, size_t size) {
       FileSystem &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
@@ -103,7 +104,13 @@ public:
    };
 
     esp_vfs_register(path, &myfs, this);
+    // path prefix will be removed by VFS calls
+    api_files_with_prefix = false;
+#else
+    // all api calls provide the complete path prefix
+    api_files_with_prefix = true;
 #endif
+
   };
 
   /// Selects the actual File System to be used for directory searches
@@ -126,7 +133,7 @@ public:
 
   /// adds a in memory file
   bool add(const char *name, const void *data, size_t len) {
-    const char *name_internal = name+filenameOffset();
+    const char *name_internal = internalFileName(name, true);
     FS_LOGI("add: name='%s' len=%d", name_internal, len);
     if (&DefaultRegistry.fileSystem(name) != this) {
       FS_LOGE("File %s not vaid for  %s in %s", name, this->pathPrefix(),
@@ -146,14 +153,14 @@ public:
     FS_LOGD("files: %d", files.size());
     return true;
   }
+  /// @brief  Determines the regentry by name
+  RegEntry &get(const char *path) { return getEntry(internalFileName(path, api_files_with_prefix)); }
 
   /// number of file entries
   size_t size() { return files.size(); }
 
   /// Returns true if there are no files
   bool isEmpty() { return size() == 0; }
-
-  RegEntry &get(const char *path) { return getEntry(path); }
 
   /// file operations
   int open(const char *path, int flags, int mode) override {
@@ -237,7 +244,7 @@ public:
     if (!mem_entry) {
       is_dir = isDir(path);
       if (!is_dir){
-        FS_LOGW("stat: '%s' does not exist", path);
+        FS_LOGI("stat: '%s' does not exist", path);
         return -1;
       }
     } else {
@@ -288,15 +295,15 @@ public:
     FS_LOGI("opendir(%s)", name);
     DIR_EXT *result = new DIR_EXT();
     result->p_file_system = this;
-    result->dir = name;
+    result->dir = internalFileName(name, api_files_with_prefix);
 
     // find matching files
     for (RegEntry *entry : files) {
       // cut off prefix from file names
       const char *file_name = entry->file_name;
-      FS_LOGD("-> %s %s", file_name, name);
-      if (Str(file_name).startsWith(name)) {
-        FS_LOGD("--> %s %s", file_name, name);
+      FS_LOGD("-> %s %s", file_name, result->dir);
+      if (Str(file_name).startsWith(result->dir)) {
+        FS_LOGD("--> %s %s", file_name, result->dir);
         result->files.push_back(entry);
       }
     }
@@ -346,7 +353,7 @@ public:
   }
 
   virtual void* mem_map(const char* path,size_t *p_size) override { 
-    const char* name_internal = path+filenameOffset();
+    const char* name_internal = internalFileName(path, true);
     FS_LOGI("mem_map(%s)", name_internal);
     RegEntry &entry = get(name_internal);
     if (!entry){
@@ -369,6 +376,9 @@ public:
 protected:
   // Files in Directory
   Vector<RegEntry *> files;
+  // The ESP32 virtual file system audomatically removes the prefix, for all other
+  // implementations we need to do this outselfs
+  bool api_files_with_prefix;
 
   // gets a file entry by index
   RegEntry &getEntry(int fd) {
@@ -422,8 +432,6 @@ protected:
     FS_LOGD("=> stat path=%s -> size=%d ", fileName, st->st_size);
     return 0;
   }
-
-
 };
 
 } // namespace file_systems

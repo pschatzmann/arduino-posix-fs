@@ -54,6 +54,7 @@ inline FSLoggerClass FSLogger;
 #  define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)
 #  define FS_TRACED() file_systems::FSLogger.log(FSDebug, LOG_METHOD)
 #  define FS_TRACEI() file_systems::FSLogger.log(FSInfo, LOG_METHOD)
+#  define FS_TRACEE() file_systems::FSLogger.log(FSError, LOG_METHOD)
 #else
 #  define FS_LOGD(fmt, ...) 
 #  define FS_LOGI(fmt, ...) 
@@ -61,6 +62,7 @@ inline FSLoggerClass FSLogger;
 #  define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)
 #  define FS_TRACED() 
 #  define FS_TRACEI() 
+#  define FS_TRACEE() 
 #endif
 
 } // namespace arduino_FS
