@@ -213,7 +213,7 @@ public:
 
   /// Returns the File by fd
   RegEntry &getEntry(int fileID) {
-    if (fileID < size()) {
+    if ((size_t)fileID < size()) {
       return *open_files[fileID];
     }
     FS_LOGE("fileSystem: No Regentry for %d", fileID);
@@ -252,7 +252,7 @@ protected:
   int findOpenEmpty() {
     FS_TRACED();
     int result = -1;
-    for (int j = 0; j < size(); j++) {
+    for (size_t j = 0; j < size(); j++) {
       RegEntry *entry = open_files[j];
       if (entry == nullptr) {
         result = j;

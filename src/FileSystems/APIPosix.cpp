@@ -1,4 +1,3 @@
-// #pragma once
 #include "ConfigFS.h"
 
 #if POSIX_C_METHOD_IMPLEMENTATION
@@ -40,6 +39,10 @@ int write(int file, const void *ptr, size_t len) {
   return file_systems::DefaultRegistry.fileSystem(file).write(file, ptr, len);
 }
 
+off_t lseek(int file, off_t offset, int mode) {
+  return file_systems::DefaultRegistry.fileSystem(file).lseek(file, offset, mode);
+}
+
 DIR *opendir(const char *name) {
   return file_systems::DefaultRegistry.fileSystem(name).opendir(name);
 }
@@ -60,61 +63,5 @@ int unlink(const char *pathname) {
   return file_systems::DefaultRegistry.fileSystem(pathname).unlink(pathname);
 }
 
-#ifdef MBED_HACK
-
-int _open(const char *name, int flags, int mode = 0) {
-  return open(name, flags, mode);
-}
-int _stat(const char *pathname, struct stat *statbuf) {
-  return stat(pathname, statbuf);
-}
-int _unlink(const char *pathname) { return unlink(pathname); }
-
-#endif
-
-// C++ file operations are mapped to _i methods with the help of defines
-#ifdef ADD_CPP_IMPL
-
-FILE *fopen_i(const char *path, const char *mode) {
-  int file = open(path, 0);
-  if (file < 0)
-    return nullptr;
-  FILE *fp = (FILE *)malloc(sizeof(FILE));
-  fp->_file = file;
-  return fp;
-}
-
-size_t fread_i(void *buffer, size_t size, size_t count, FILE *stream) {
-  return read(stream->_file, buffer, size * count);
-}
-
-// Reads a single charac
-int fgetc_i(FILE *stream) {
-  char c;
-  size_t len = fread_i(&c, 1, 1, stream);
-  return len == 1 ? c : -1;
-}
-
-char *fgets_i(char * s, int n, FILE *f) {
-  int count=0;
-  int c=-1;
-  for (int j=0;j<n-1;j++){
-    c = fgetc_i(f);
-    if (c<0){
-      break;
-    }
-    count = j;
-    s[count]=c;
-    if (c=='\n'){
-      break;
-    }
-  }
-  s[count+1]=0;
-  return c!=-1 ? s : nullptr;
-}
-
-int fclose_i(FILE *fp) { return close(fp->_file); }
-
-#endif
 
 #endif // POSIX_C_METHOD_IMPLEMENTATION

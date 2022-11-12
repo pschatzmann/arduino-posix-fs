@@ -205,7 +205,7 @@ public:
       return 0;
     }
     // If we are at the end we return 0
-    int pos = p_memory->current_pos;
+    size_t pos = p_memory->current_pos;
     if(pos>=p_memory->size){
       FS_LOGD("=> read: pos=%d file-size=%d fd=%d -> %d", pos, p_memory->size, fd, 0);
       return 0;
