@@ -48,13 +48,13 @@ DIR *opendir(const char *name) {
 }
 
 int closedir(DIR *dirp) {
-  file_systems::FileSystem *pfs =
+  file_systems::FileSystemBase *pfs =
       static_cast<file_systems::DIR_BASE *>(dirp)->p_file_system;
   return pfs->closedir(dirp);
 }
 
 struct dirent *readdir(DIR *dirp) {
-  file_systems::FileSystem *pfs =
+  file_systems::FileSystemBase *pfs =
       static_cast<file_systems::DIR_BASE *>(dirp)->p_file_system;
   return pfs->readdir(dirp);
 }

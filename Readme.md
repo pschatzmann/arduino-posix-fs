@@ -6,11 +6,7 @@ All regular C or C++ projects that use files are based on the [Posix File Operat
 If you want to store larger amount of data on a Microcontroller you can also use the Program Memory (PROGMEM). 
 
 The goals of this project is to provide __Posix File API__ support to Microcontrollers in order to 
-
-- readonly access of files in PROGMEM (w/o separate file deployment step)
-- access files on SD drives (if not supported by default)
-
-so that existing projects can be easily migrated to run on microcontrollers. 
+access of data in PROGMEM as files (w/o separate file deployment step), so that existing projects can be easily migrated to run on microcontrollers. 
 
 ## Documentation
 
@@ -28,9 +24,6 @@ You can convert any file into c source code with the help of __xxd__. Don't forg
 
 Then you can register the files with their corresponding name and size: Here is an [example sketch](examples/in-memory-fs/in-memory-fs.ino) that registers some files. You can read the files with the regualr C or C++ APIs: see [this example](examples/in-memory-read/memory-read.ino). 
 
-### Using SD Files
-
-To set up the Posix API you will define a global FileSystemSD object. Then you just need to set up the SD as always: Here is [an example](examples/sd/sd.ino).
 
 ### Logging
 
@@ -38,6 +31,11 @@ You can set up the logger by providing the log level and the logging output:
 ```
   file_systems::FSLogger.begin(file_systems::FSDebug, Serial); 
 ```
+## Supported Platforms
+
+- ESP32 (using the Virtual File System)
+- Rasperry Pico (RP2040)
+- Arduino implementation based on MBED
 
 ## Installation in Arduino
 

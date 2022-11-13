@@ -3,6 +3,7 @@
 #include "Collections/Str.h"
 #include "Collections/Vector.h"
 #include "ConfigFS.h"
+#include "FileSystems/FileSystemBase.h"
 #include "LoggerFS.h"
 
 namespace file_systems {
@@ -11,73 +12,20 @@ namespace file_systems {
 enum RegContentType { ContentUndefined, ContentFile, ContentMemory };
 
 /**
- * @brief Abstract file system which can be identified by a prefix: E.g.
- * /Memory. Implements all privided file operations
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class FileSystem {
-
-public:
-  FileSystem() = default;
-  /// @brief Constructor for a new file system
-  /// @param path path prefix for all files
-  FileSystem(const char *path) { path_prefix = path; }
-  /// Provides the path for all relevant files managed by this file system
-  virtual const char *pathPrefix() { return path_prefix; }
-  /// Checks if the file is managed by this file system
-  virtual bool isValidFile(const char *path) {
-    return (Str(path).startsWith(pathPrefix()));
-  }
-
-  operator bool() { return path_prefix != nullptr; }
-
-  virtual const char *name() { return "FileSystem"; }
-  // file operations
-  virtual int open(const char *path, int flags, int mode) { FS_TRACEE(); return -1; }
-  virtual ssize_t write(int fd, const void *data, size_t size) { return 0; }
-  virtual ssize_t read(int fd, void *data, size_t size) { return 0; }
-  virtual int close(int fd) { return -1; };
-  virtual int fstat(int fd, struct stat *st) { return -1; };
-  virtual int stat(const char *pathname, struct stat *statbuf){ return -1; };
-  virtual off_t lseek(int fd, off_t offset, int mode) { return -1; };
-  // directory operations
-  virtual DIR *opendir(const char *name) { return nullptr; }
-  virtual dirent *readdir(DIR *pdir) { return nullptr; }
-  virtual int closedir(DIR *pdir) { return -1; }
-  virtual int unlink(const char* path) { return -1; }
-  // method for memory file to get the data content
-  virtual void* mem_map(const char* path,size_t *p_size) { return NULL; }
-
-protected:
-  const char *path_prefix = "@";
-  int filename_offset = 0;
-#ifdef ESP32
-  esp_vfs_t myfs;
-#endif
-
-  /// The ESP32 is removing the path prefix for all file processing 
-  virtual int filenameOffset() {
-    return filename_offset;
-  }
-  // Converts the name to the internal name (removing the path prefix)
-  const char* internalFileName(const char* name, bool withPrefix){
-    return withPrefix && FileSystem::isValidFile(name) ? name + filenameOffset() : name;
-  }
-
-};
-
-/**
  * @brief Common data for custom DIR
  * @author Phil Schatzmann
  * @copyright GPLv3
- * 
+ *
  */
 struct DIR_BASE : public DIR {
+  DIR_BASE()=default;
+  virtual ~DIR_BASE() {}
   int magic_id = 0;
-  FileSystem *p_file_system = nullptr;
+  FileSystemBase *p_file_system = nullptr;
+  virtual bool seek(off_t offset) { return false; }
+  virtual off_t tell() { return -1; }
+  virtual ssize_t size() { return -1; };
 };
-
 /**
  * @brief Base class for all Contents
  * @author Phil Schatzmann
@@ -95,7 +43,7 @@ struct RegContent {
 struct RegEntry {
   RegEntry() = default;
   virtual ~RegEntry() {
-    assert(memory_guard==12345);
+    assert(memory_guard == 12345);
 #ifdef ESP32
     assert(heap_caps_check_integrity_all(true));
 #endif
@@ -107,7 +55,7 @@ struct RegEntry {
   }
   int memory_guard = 12345;
   /// reference to the file system
-  FileSystem *p_file_system = nullptr;
+  FileSystemBase *p_file_system = nullptr;
   /// the name of the file
   const char *file_name = nullptr;
   /// pointer to specific content object
@@ -119,13 +67,9 @@ struct RegEntry {
 };
 
 // Invalid RegEntry
-inline RegEntry NoRegEntry;
+inline static RegEntry NoRegEntry;
 // Invalid FileSystem
-inline FileSystem NoFileSystem("/null");
-// Shared vector for all open files
-inline Vector<RegEntry *> open_files;
-// Shared vector for all file systems
-inline Vector<FileSystem *> file_systems;
+inline static FileSystemBase NoFileSystem("/null");
 
 /**
  * @brief Registry which manages open files
@@ -137,7 +81,7 @@ public:
   Registry() = default;
 
   /// Registers the file system
-  void add(FileSystem &fileSystem) {
+  void add(FileSystemBase &fileSystem) {
     FS_TRACED();
     file_systems.push_back(&fileSystem);
   }
@@ -145,7 +89,7 @@ public:
   /// opens a new file and provides the corresponding file descriptor
   RegEntry &openFile(const char *path) {
     FS_TRACED();
-    FileSystem &fs = fileSystem(path);
+    FileSystemBase &fs = fileSystem(path);
     if (!fs) {
       FS_LOGE("openFile: No filesystem for %s", path);
       return NoRegEntry;
@@ -154,7 +98,7 @@ public:
   }
 
   /// opens a new file and provides the corresponding file descriptor
-  RegEntry &openFile(const char *path, FileSystem &fs) {
+  RegEntry &openFile(const char *path, FileSystemBase &fs) {
     FS_TRACED();
     RegEntry *new_entry = new RegEntry();
     new_entry->p_file_system = &fs;
@@ -176,10 +120,10 @@ public:
   }
 
   /// Determines the file system for a file path
-  FileSystem &fileSystem(const char *path) {
+  FileSystemBase &fileSystem(const char *path) {
     FS_LOGD("fileSystem(%s)", path);
     for (auto p_fs : file_systems) {
-      if (p_fs->FileSystem::isValidFile(path)) {
+      if (p_fs->FileSystemBase::isValidFile(path)) {
         FS_LOGD("-> %s", p_fs->name());
         return *p_fs;
       }
@@ -189,7 +133,7 @@ public:
   }
 
   /// Determines the file system for the fileID
-  FileSystem &fileSystem(int id) {
+  FileSystemBase &fileSystem(int id) {
     RegEntry &entry = getEntry(id);
     if (entry && entry.p_file_system != nullptr) {
       return *(entry.p_file_system);
@@ -224,20 +168,20 @@ public:
   size_t size() { return open_files.size(); }
 
   /// Defines the actual file system that is used for directory searches
-  void setFileSystemForSearch(FileSystem *fs) { search_file_system = fs; }
+  void setFileSystemForSearch(FileSystemBase *fs) { search_file_system = fs; }
 
   /// Provides the actual file system that is used for directory searches
-  FileSystem &fileSystemForSearch() { return *search_file_system; }
+  FileSystemBase &fileSystemForSearch() { return *search_file_system; }
 
   /// Determines the file system by name
-  FileSystem &fileSystemByName(const char *path) {
+  FileSystemBase &fileSystemByName(const char *path) {
     FS_TRACED();
     for (auto p_fs : file_systems) {
       if (Str(p_fs->name()).equals(path)) {
         return *p_fs;
       }
     }
-    if (!file_systems.empty()){
+    if (!file_systems.empty()) {
       FS_LOGE("No filesystem for %s", path);
     } else {
       FS_LOGD("No filesystems available");
@@ -246,7 +190,11 @@ public:
   }
 
 protected:
-  FileSystem *search_file_system;
+  FileSystemBase *search_file_system;
+  // Shared vector for all open files
+  inline static Vector<RegEntry *> open_files;
+  // Shared vector for all file systems
+  inline static Vector<FileSystemBase *> file_systems;
 
   // Finds an empty stop in the open files list
   int findOpenEmpty() {
@@ -263,7 +211,6 @@ protected:
   }
 };
 
-inline Registry DefaultRegistry;
+inline static Registry DefaultRegistry;
 
 } // namespace file_systems
-

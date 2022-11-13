@@ -27,7 +27,16 @@
 
 // ********** RP2040 **************
 #if defined(ARDUINO_ARCH_MBED)
-# error("MBED not supported")
+# define FS_IS_MBED
+# define MAXNAMLEN 160
+# define _DIR DIR_impl
+#include "platform/mbed_toolchain.h"
+#include "mbed_retarget.h"
+
+struct DIR_impl {
+    void *handle;
+    struct dirent entry;
+};
 
 #elif defined(TARGET_RP2040)
 #  define POSIX_C_METHOD_IMPLEMENTATION 1

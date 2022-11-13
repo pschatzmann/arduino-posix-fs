@@ -56,14 +56,14 @@ struct RegContentFile : public RegContent {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class FileSystemSD : public FileSystem {
+class FileSystemSD : public FileSystemBase {
 public:
-  FileSystemSD(const char *name, ES_SD &sd) : FileSystem(name) {
+  FileSystemSD(const char *name, ES_SD &sd) : FileSystemBase(name) {
     setSD(sd);
     setup(name);
   }
 
-  FileSystemSD(const char *name) : FileSystem(name) { setup(name); }
+  FileSystemSD(const char *name) : FileSystemBase(name) { setup(name); }
 
   void setSD(ES_SD &sd) { p_fs = &sd; }
 
