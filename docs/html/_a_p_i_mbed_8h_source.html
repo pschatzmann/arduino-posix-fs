@@ -91,9 +91,9 @@ $(function() {
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span>file_systems {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">class </span>MBEDFileHandle : <span class="keyword">public</span> mbed::FileHandle {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classfile__systems_1_1_m_b_e_d_file_handle.html">   20</a></span><span class="keyword">class </span><a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_handle.html">MBEDFileHandle</a> : <span class="keyword">public</span> mbed::FileHandle {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  MBEDFileHandle(<a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a> *p_fs, <span class="keyword">const</span> <span class="keywordtype">char</span> *fileName,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_handle.html">MBEDFileHandle</a>(<a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a> *p_fs, <span class="keyword">const</span> <span class="keywordtype">char</span> *fileName,</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                 <span class="keywordtype">int</span> fd) {</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    FS_LOGI(<span class="stringliteral">&quot;MBEDFileHandle %s&quot;</span>, fileName);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    file_name = fileName;</div>
@@ -144,9 +144,9 @@ $(function() {
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordtype">int</span> fd;</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>};</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">class </span>MBEDDirHandle : <span class="keyword">public</span> mbed::DirHandle {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classfile__systems_1_1_m_b_e_d_dir_handle.html">   77</a></span><span class="keyword">class </span><a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_dir_handle.html">MBEDDirHandle</a> : <span class="keyword">public</span> mbed::DirHandle {</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  MBEDDirHandle(<a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a> *p_fs, <span class="keyword">const</span> <span class="keywordtype">char</span> *fileName, DIR_BASE *p_dir) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_dir_handle.html">MBEDDirHandle</a>(<a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a> *p_fs, <span class="keyword">const</span> <span class="keywordtype">char</span> *fileName, <a class="code hl_struct" href="structfile__systems_1_1_d_i_r___b_a_s_e.html">DIR_BASE</a> *p_dir) {</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    FS_LOGI(<span class="stringliteral">&quot;MBEDFileHandle %s&quot;</span>, fileName);</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    this-&gt;file_name = fileName;</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    this-&gt;fd = fd;</div>
@@ -195,14 +195,14 @@ $(function() {
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">protected</span>:</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *file_name;</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a> *p_fs;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  DIR_BASE *p_dir = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <a class="code hl_struct" href="structfile__systems_1_1_d_i_r___b_a_s_e.html">DIR_BASE</a> *p_dir = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="keywordtype">int</span> fd;</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>};</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="keyword">class </span>MBEDFileSystem : <span class="keyword">public</span> mbed::FileSystemLike {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classfile__systems_1_1_m_b_e_d_file_system.html">  136</a></span><span class="keyword">class </span><a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_system.html">MBEDFileSystem</a> : <span class="keyword">public</span> mbed::FileSystemLike {</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  MBEDFileSystem(<span class="keyword">const</span> <span class="keywordtype">char</span> *name = NULL)</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>      : mbed::FileSystemLike(FileSystemBase::standardName(name)) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_system.html">MBEDFileSystem</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name = NULL)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>      : mbed::FileSystemLike(<a class="code hl_function" href="classfile__systems_1_1_file_system_base.html#a765054153507722a41688f684f03c83e">FileSystemBase::standardName</a>(name)) {</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    FS_LOGI(<span class="stringliteral">&quot;MBEDFileSystem %s&quot;</span>, name);</div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    this-&gt;name = name;</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    statvfs_v.f_namemax = MAXNAMLEN;</div>
@@ -213,7 +213,7 @@ $(function() {
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  <span class="keywordtype">int</span> mount(mbed::BlockDevice *bd = <span class="keyword">nullptr</span>) {</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    FS_TRACEI();</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    FileSystemBase &amp;fs = file_systems::DefaultRegistry.<a class="code hl_function" href="classfile__systems_1_1_registry.html#aae124cb35c845f3b8282a0300e2b134f">fileSystem</a>(name);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_class" href="classfile__systems_1_1_file_system_base.html">FileSystemBase</a> &amp;fs = file_systems::DefaultRegistry.<a class="code hl_function" href="classfile__systems_1_1_registry.html#aae124cb35c845f3b8282a0300e2b134f">fileSystem</a>(name);</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (!fs) {</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      FS_LOGE(<span class="stringliteral">&quot;mount failed&quot;</span>);</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
@@ -257,7 +257,7 @@ $(function() {
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>  <span class="keywordtype">int</span> statvfs(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keyword">struct</span> statvfs *buf) {</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    FS_TRACEI();</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">if</span> (Str(path).startsWith(name) &amp;&amp; buf != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">if</span> (<a class="code hl_class" href="classfile__systems_1_1_str.html">Str</a>(path).startsWith(name) &amp;&amp; buf != <span class="keyword">nullptr</span>) {</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>      *buf = statvfs_v;</div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>      <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    } <span class="keywordflow">else</span> {</div>
@@ -266,7 +266,7 @@ $(function() {
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>  }</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>  <span class="keyword">static</span> FileSystemLike *get_default_instance() {</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keyword">static</span> file_systems::MBEDFileSystem default_fs(<span class="stringliteral">&quot;/fs&quot;</span>);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keyword">static</span> <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_system.html">file_systems::MBEDFileSystem</a> default_fs(<span class="stringliteral">&quot;/fs&quot;</span>);</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">return</span> &amp;default_fs;</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  }</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
@@ -287,7 +287,7 @@ $(function() {
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      FS_LOGE(<span class="stringliteral">&quot;open&quot;</span>);</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    *file = <span class="keyword">new</span> MBEDFileHandle(p_fs, path, fd);</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    *file = <span class="keyword">new</span> <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_file_handle.html">MBEDFileHandle</a>(p_fs, path, fd);</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  }</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
@@ -297,12 +297,12 @@ $(function() {
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>      FS_LOGI(<span class="stringliteral">&quot;p_fs is null&quot;</span>);</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>      <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    DIR_BASE *p_dir = (DIR_BASE *)p_fs-&gt;opendir(path);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <a class="code hl_struct" href="structfile__systems_1_1_d_i_r___b_a_s_e.html">DIR_BASE</a> *p_dir = (<a class="code hl_struct" href="structfile__systems_1_1_d_i_r___b_a_s_e.html">DIR_BASE</a> *)p_fs-&gt;opendir(path);</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordflow">if</span> (p_dir==<span class="keyword">nullptr</span>){</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>      FS_LOGE(<span class="stringliteral">&quot;opendir&quot;</span>);</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>      <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    }</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    *dir = <span class="keyword">new</span> MBEDDirHandle(p_fs, path, p_dir);</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    *dir = <span class="keyword">new</span> <a class="code hl_class" href="classfile__systems_1_1_m_b_e_d_dir_handle.html">MBEDDirHandle</a>(p_fs, path, p_dir);</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>  }</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>};</div>
@@ -311,8 +311,14 @@ $(function() {
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="preprocessor">#endif </span><span class="comment">// FS_IS_MBED</span></div>
 <div class="ttc" id="aclassfile__systems_1_1_file_system_base_html"><div class="ttname"><a href="classfile__systems_1_1_file_system_base.html">file_systems::FileSystemBase</a></div><div class="ttdoc">Abstract file system which can be identified by a prefix: E.g. /Memory. Implements all privided file ...</div><div class="ttdef"><b>Definition:</b> FileSystemBase.h:12</div></div>
+<div class="ttc" id="aclassfile__systems_1_1_file_system_base_html_a765054153507722a41688f684f03c83e"><div class="ttname"><a href="classfile__systems_1_1_file_system_base.html#a765054153507722a41688f684f03c83e">file_systems::FileSystemBase::standardName</a></div><div class="ttdeci">static const char * standardName(const char *name)</div><div class="ttdoc">file name w/o leading /</div><div class="ttdef"><b>Definition:</b> FileSystemBase.h:53</div></div>
+<div class="ttc" id="aclassfile__systems_1_1_m_b_e_d_dir_handle_html"><div class="ttname"><a href="classfile__systems_1_1_m_b_e_d_dir_handle.html">file_systems::MBEDDirHandle</a></div><div class="ttdoc">An mbed directory implementation.</div><div class="ttdef"><b>Definition:</b> APIMbed.h:77</div></div>
+<div class="ttc" id="aclassfile__systems_1_1_m_b_e_d_file_handle_html"><div class="ttname"><a href="classfile__systems_1_1_m_b_e_d_file_handle.html">file_systems::MBEDFileHandle</a></div><div class="ttdoc">An mbed implementation for an individual File.</div><div class="ttdef"><b>Definition:</b> APIMbed.h:20</div></div>
+<div class="ttc" id="aclassfile__systems_1_1_m_b_e_d_file_system_html"><div class="ttname"><a href="classfile__systems_1_1_m_b_e_d_file_system.html">file_systems::MBEDFileSystem</a></div><div class="ttdoc">MBED implementation for a file system.</div><div class="ttdef"><b>Definition:</b> APIMbed.h:136</div></div>
 <div class="ttc" id="aclassfile__systems_1_1_registry_html_aae124cb35c845f3b8282a0300e2b134f"><div class="ttname"><a href="classfile__systems_1_1_registry.html#aae124cb35c845f3b8282a0300e2b134f">file_systems::Registry::fileSystem</a></div><div class="ttdeci">FileSystemBase &amp; fileSystem(const char *path)</div><div class="ttdoc">Determines the file system for a file path.</div><div class="ttdef"><b>Definition:</b> Registry.h:123</div></div>
+<div class="ttc" id="aclassfile__systems_1_1_str_html"><div class="ttname"><a href="classfile__systems_1_1_str.html">file_systems::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:17</div></div>
 <div class="ttc" id="astructdirent_html"><div class="ttname"><a href="structdirent.html">dirent</a></div><div class="ttdef"><b>Definition:</b> fs_dirent.h:6</div></div>
+<div class="ttc" id="astructfile__systems_1_1_d_i_r___b_a_s_e_html"><div class="ttname"><a href="structfile__systems_1_1_d_i_r___b_a_s_e.html">file_systems::DIR_BASE</a></div><div class="ttdoc">Common data for custom DIR.</div><div class="ttdef"><b>Definition:</b> Registry.h:20</div></div>
 <div class="ttc" id="astructstat_html"><div class="ttname"><a href="structstat.html">stat</a></div><div class="ttdef"><b>Definition:</b> fs_stat.h:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

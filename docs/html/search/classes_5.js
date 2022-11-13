@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queue_0',['Queue',['../classfile__systems_1_1_queue.html',1,'file_systems']]]
+  ['node_0',['Node',['../structfile__systems_1_1_list_1_1_node.html',1,'file_systems::List']]]
 ];
