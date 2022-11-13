@@ -72,29 +72,39 @@ $(function() {
   <div class="headertitle"><div class="title">Arduino Posix Filesystem </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_Readme"></a> All regular C or C++ projects that use files are based on the <a href="https://www.mkompf.com/cplus/posixlist.html">Posix File Operations</a>. In Microcontrollers things are quite different and you use a SD library which has it's own API to store files on a SD drive.</p>
-<p >If you want to store larger amount of data on a Microcontroller you can also use the Program Memory (PROGMEM). Popular implementations are:</p>
-<ul>
-<li>SPIFFS</li>
-<li>FATFS</li>
-</ul>
-<p >With this you are required to upload the files in a separate step.</p>
-<p >The goals of this project is to provide <b>Posix File API</b> support to Microcontrollers in order to</p>
-<ul>
-<li>access files SD drives (if not supported by default)</li>
-<li>access files in PROGMEM</li>
-</ul>
-<p >so that existing projects can be easily migrated to run on microcontrollers.</p>
+<div class="textblock"><p ><a class="anchor" id="md_Readme"></a> </p>
 <h1><a class="anchor" id="autotoc_md1"></a>
-Implementation &amp; Configuration</h1>
+Overview</h1>
+<p >All regular C or C++ projects that use files are based on the <a href="https://www.mkompf.com/cplus/posixlist.html">Posix File Operations</a>. In Microcontrollers things are quite different and you use a SD library which has it's own API to store files on a SD drive.</p>
+<p >If you want to store larger amount of data on a Microcontroller you can also use the Program Memory (PROGMEM).</p>
+<p >The goals of this project is to provide <b>Posix File API</b> support to Microcontrollers in order to access of data in PROGMEM as files (w/o separate file deployment step), so that existing projects can be easily migrated to run on microcontrollers.</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Documentation</h1>
+<p >Here is the <a href="https://pschatzmann.github.io/arduino-posix-fs/docs/html/annotated.html">link to the class documentation</a>.</p>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Implementation &amp; Configuration</h2>
 <p >On ESP32 processors this is implmented with the help of the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/vfs.html">Virtual filesystem (VFS)</a></p>
 <p >On other processors you can activate the implementation by setting the POSIX_C_METHOD_IMPLEMENTATION to 1 in <b><a class="el" href="_config_f_s_8h_source.html">ConfigFS.h</a></b></p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Using PROGMEM Files</h1>
-<p >You can convert any file into c source code with the help of <b>xxd</b>. Then you can register the files with their corresponding name: Here is an <a href="examples/tests/test-in-memory-fs/test-in-memory-fs.ino">example sketch</a> that registers some files. You can read the files with the regualr C or C++ APIs: see <a href="examples/tests/test-in-memory-read/test-in-memory-read.ino">this example</a>.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Using SD Files</h1>
-<p >To set up the Posix API you will define a global FileSystemSD object. Then you just need to set up the SD as always: Here is <a href="examples/tests/test-sd/test-sd.ino">an example</a>. </p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Using PROGMEM Files</h2>
+<p >You can convert any file into c source code with the help of <b>xxd</b>. Don't forget to change the generated defintion by adding a const to the test string. This makes sure that it is stored in PROGMEM.</p>
+<p >Then you can register the files with their corresponding name and size: Here is an <a href="examples/in-memory-fs/in-memory-fs.ino">example sketch</a> that registers some files. You can read the files with the regualr C or C++ APIs: see <a href="examples/in-memory-read/memory-read.ino">this example</a>.</p>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Logging</h2>
+<p >You can set up the logger by providing the log level and the logging output: </p><div class="fragment"><div class="line">file_systems::FSLogger.begin(file_systems::FSDebug, Serial); </div>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md6"></a>
+Supported Platforms</h1>
+<ul>
+<li>ESP32 (using the Virtual File System)</li>
+<li>Rasperry Pico (RP2040)</li>
+<li>Arduino implementation based on MBED</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md7"></a>
+Installation in Arduino</h1>
+<p >You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
+<div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
+<div class="line">git clone pschatzmann/arduino-posix-fs.git</div>
+</div><!-- fragment --><p >I recommend to use git because you can easily update to the latest version just by executing the <code>git pull</code> command in the project folder. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

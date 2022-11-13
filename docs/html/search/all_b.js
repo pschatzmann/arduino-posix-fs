@@ -1,8 +1,8 @@
 var searchData=
 [
   ['open_0',['open',['../classfile__systems_1_1_file_system_memory.html#aad0f9e9dbbb8a55eb3f875706bf89121',1,'file_systems::FileSystemMemory']]],
-  ['openfile_1',['openFile',['../classfile__systems_1_1_registry.html#a51f23f476f8be2ec338abb204be94337',1,'file_systems::Registry::openFile(const char *path)'],['../classfile__systems_1_1_registry.html#ab14e99296849101654cbfbdfa460a3bd',1,'file_systems::Registry::openFile(const char *path, FileSystem &amp;fs)']]],
-  ['operator_20boolean_2',['operator boolean',['../structfile__systems_1_1_reg_entry.html#a2b4f6324672d3f7308fe4b44a897e1f1',1,'file_systems::RegEntry']]],
+  ['openfile_1',['openFile',['../classfile__systems_1_1_registry.html#a51f23f476f8be2ec338abb204be94337',1,'file_systems::Registry::openFile(const char *path)'],['../classfile__systems_1_1_registry.html#aa387c01579f5063f0a11ab0dd8aac1d9',1,'file_systems::Registry::openFile(const char *path, FileSystemBase &amp;fs)']]],
+  ['operator_20bool_2',['operator bool',['../structfile__systems_1_1_reg_entry.html#a4eb6fef13f75bcd2dee85f0040122387',1,'file_systems::RegEntry']]],
   ['operator_21_3d_3',['operator!=',['../classfile__systems_1_1_str.html#aa07b5ba9f3db2fe3487bce3efc92e703',1,'file_systems::Str::operator!=(const Str &amp;alt) const'],['../classfile__systems_1_1_str.html#ab01900c51c67087df0c22c23a072b517',1,'file_systems::Str::operator!=(const char *alt) const']]],
   ['operator_2b_3d_4',['operator+=',['../classfile__systems_1_1_str.html#abf9f8856860be7838693e203ed1664c6',1,'file_systems::Str::operator+=(const char *str)'],['../classfile__systems_1_1_str.html#a90222487b97fcc4956cbc1e3618f1ade',1,'file_systems::Str::operator+=(int value)'],['../classfile__systems_1_1_str.html#aecf94afa512104353abe6be2e5cf1709',1,'file_systems::Str::operator+=(double value)'],['../classfile__systems_1_1_str.html#aa3f8e0345fd51677a88b3e7eb8d24347',1,'file_systems::Str::operator+=(const char value)']]],
   ['operator_3c_3c_5',['operator&lt;&lt;',['../classfile__systems_1_1_str.html#aa609422a6672fed30057c89ffd2b9cc8',1,'file_systems::Str']]],

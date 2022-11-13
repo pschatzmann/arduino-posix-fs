@@ -119,14 +119,25 @@ $(function() {
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">inline</span> FSLoggerClass FSLogger;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define FS_LOGD(fmt, ...) file_systems::FSLogger.log(FSDebug, fmt, ##__VA_ARGS__)</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define FS_LOGI(fmt, ...) file_systems::FSLogger.log(FSInfo, fmt, ##__VA_ARGS__)</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define FS_LOGW(fmt, ...) file_systems::FSLogger.log(FSWarning, fmt, ##__VA_ARGS__)</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#define FS_TRACED() file_systems::FSLogger.log(FSDebug, LOG_METHOD)</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#define FS_TRACEI() file_systems::FSLogger.log(FSInfo, LOG_METHOD)</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>} <span class="comment">// namespace arduino_FS</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#if FS_LOGGING_ACTIVE</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#  define FS_LOGD(fmt, ...) file_systems::FSLogger.log(FSDebug, fmt, ##__VA_ARGS__)</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#  define FS_LOGI(fmt, ...) file_systems::FSLogger.log(FSInfo, fmt, ##__VA_ARGS__)</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#  define FS_LOGW(fmt, ...) file_systems::FSLogger.log(FSWarning, fmt, ##__VA_ARGS__)</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#  define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#  define FS_TRACED() file_systems::FSLogger.log(FSDebug, LOG_METHOD)</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#  define FS_TRACEI() file_systems::FSLogger.log(FSInfo, LOG_METHOD)</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#  define FS_TRACEE() file_systems::FSLogger.log(FSError, LOG_METHOD)</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#  define FS_LOGD(fmt, ...) </span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#  define FS_LOGI(fmt, ...) </span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#  define FS_LOGW(fmt, ...) </span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#  define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#  define FS_TRACED() </span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#  define FS_TRACEI() </span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#  define FS_TRACEE() </span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>} <span class="comment">// namespace arduino_FS</span></div>
 <div class="ttc" id="aclassfile__systems_1_1_f_s_logger_class_html"><div class="ttname"><a href="classfile__systems_1_1_f_s_logger_class.html">file_systems::FSLoggerClass</a></div><div class="ttdoc">Logging class which supports multiple log levels.</div><div class="ttdef"><b>Definition:</b> LoggerFS.h:16</div></div>
 <div class="ttc" id="aclassfile__systems_1_1_f_s_logger_class_html_ad0a0e83ef298d766c3a69d7d9112d4df"><div class="ttname"><a href="classfile__systems_1_1_f_s_logger_class.html#ad0a0e83ef298d766c3a69d7d9112d4df">file_systems::FSLoggerClass::begin</a></div><div class="ttdeci">bool begin(FSLogLevel_t l, Print &amp;out)</div><div class="ttdoc">start the logger</div><div class="ttdef"><b>Definition:</b> LoggerFS.h:22</div></div>
 <div class="ttc" id="aclassfile__systems_1_1_f_s_logger_class_html_adbc34156059a2123dfe567c86826aff0"><div class="ttname"><a href="classfile__systems_1_1_f_s_logger_class.html#adbc34156059a2123dfe567c86826aff0">file_systems::FSLoggerClass::log</a></div><div class="ttdeci">void log(FSLogLevel_t level, const char *fmt...)</div><div class="ttdoc">Print log message.</div><div class="ttdef"><b>Definition:</b> LoggerFS.h:29</div></div>
