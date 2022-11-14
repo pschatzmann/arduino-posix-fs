@@ -84,11 +84,12 @@ Documentation</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Implementation &amp; Configuration</h2>
 <p >On ESP32 processors this is implmented with the help of the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/vfs.html">Virtual filesystem (VFS)</a></p>
-<p >On other processors you can activate the implementation by setting the POSIX_C_METHOD_IMPLEMENTATION to 1 in <b><a class="el" href="_config_f_s_8h_source.html">ConfigFS.h</a></b></p>
+<p >On mbed based implementations we implmenent a <a href="https://os.mbed.com/docs/mbed-os/v6.15/mbed-os-api-doxy/classmbed_1_1_file_system_like.html">FileSystemLike</a> subclass.</p>
+<p >All processors are configured in <b><a class="el" href="_config_f_s_8h_source.html">ConfigFS.h</a></b></p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Using PROGMEM Files</h2>
 <p >You can convert any file into c source code with the help of <b>xxd</b>. Don't forget to change the generated defintion by adding a const to the test string. This makes sure that it is stored in PROGMEM.</p>
-<p >Then you can register the files with their corresponding name and size: Here is an <a href="examples/in-memory-fs/in-memory-fs.ino">example sketch</a> that registers some files. You can read the files with the regualr C or C++ APIs: see <a href="examples/in-memory-read/memory-read.ino">this example</a>.</p>
+<p >Then you can register the files with their corresponding name and size: Here is an <a href="examples/in-memory-fs/in-memory-fs.ino">example sketch</a> that registers some files. You can read the files with the regualr C or C++ APIs: see [the other examples](examples).</p>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Logging</h2>
 <p >You can set up the logger by providing the log level and the logging output: </p><div class="fragment"><div class="line">file_systems::FSLogger.begin(file_systems::FSDebug, Serial); </div>
