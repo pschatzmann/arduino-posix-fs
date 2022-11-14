@@ -16,13 +16,15 @@ Here is the [link to the class documentation](https://pschatzmann.github.io/ardu
 
 On ESP32 processors this is implmented with the help of the [Virtual filesystem (VFS)](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/vfs.html)
 
-On other processors you can activate the implementation by setting the POSIX_C_METHOD_IMPLEMENTATION to 1 in __ConfigFS.h__
+On mbed based implementations we implmenent a [FileSystemLike](https://os.mbed.com/docs/mbed-os/v6.15/mbed-os-api-doxy/classmbed_1_1_file_system_like.html) subclass.
+
+All processors are configured in __ConfigFS.h__
 
 ### Using PROGMEM Files
 
 You can convert any file into c source code with the help of __xxd__. Don't forget to change the generated defintion by adding a const to the test string. This makes sure that it is stored in PROGMEM.
 
-Then you can register the files with their corresponding name and size: Here is an [example sketch](examples/in-memory-fs/in-memory-fs.ino) that registers some files. You can read the files with the regualr C or C++ APIs: see [this example](examples/in-memory-read/memory-read.ino). 
+Then you can register the files with their corresponding name and size: Here is an [example sketch](examples/in-memory-fs/in-memory-fs.ino) that registers some files. You can read the files with the regualr C or C++ APIs: see [the other examples](examples). 
 
 
 ### Logging
