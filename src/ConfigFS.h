@@ -11,8 +11,11 @@
 
 // ********** OSX/Linux **************
 #ifdef IS_DESKTOP
-#  include "sys/stat.h"
+#  include <sys/stat.h>
 #  include <dirent.h>
+#  define POSIX_C_METHOD_IMPLEMENTATION 1
+#  define FS_USE_F_INTERNAL
+#  include "ConfigFS/fs_stdio.h"
 #endif
 
 // ********** ESP33 **************
@@ -48,16 +51,6 @@ struct DIR_impl {
 #  include "ConfigFS/fs_dirent.h"
 #  include "ConfigFS/fs_fcntl.h"
 #  include "sys/stat.h"
-#endif
-
-// ********** Compile with CMAKE ************
-#if defined(IS_DESKTOP)
-#  define POSIX_C_METHOD_IMPLEMENTATION 1
-#  define FS_USE_F_INTERNAL
-#  include "dirent.h"
-#  include "fcntl.h"
-#  include "sys/stat.h"
-#  include "ConfigFS/fs_stdio.h"
 #endif
 
 // ********** STM32 **************

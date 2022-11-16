@@ -55,42 +55,42 @@ class FileSystemMemory : public FileSystemBase {
 public:
   FileSystemMemory(const char *path) : FileSystemBase(path) {
     setFileSystemForSearch();
-    DefaultRegistry.add(*this);
+    Registry::DefaultRegistry().add(*this);
     filename_offset = strlen(path);
 
 #ifdef ESP32
     // Setup VFS for ESP32
     // myfs.flags = ESP_VFS_FLAG_CONTEXT_PTR;
     myfs.write = [](int fd, const void *data, size_t size) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.write(fd, data, size);
     };
     myfs.open = [](const char *path, int flags, int mode) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.open(path, flags, mode);
     };
     myfs.fstat = [](int fd, struct stat *st) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.fstat(fd, st);
     };
     myfs.stat = [](const char *fn, struct stat *st) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.stat(fn, st);
     };
     myfs.close = [](int fd) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.close(fd);
     };
     myfs.read = [](int fd, void *data, size_t size) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.read(fd, data, size);
     };
     myfs.lseek = [](int fd, off_t offset, int mode) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.lseek(fd, offset, mode);
     };
     myfs.opendir = [](const char *name) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.opendir(name);
     };
     myfs.readdir = [](DIR *pdir) {
@@ -110,7 +110,7 @@ public:
       return ext->p_file_system->closedir(pdir);
     };
     myfs.unlink = [](const char *fn) {
-      FileSystemBase &fs = DefaultRegistry.fileSystemByName(FS_NAME_MEM);
+      FileSystemBase &fs = Registry::DefaultRegistry().fileSystemByName(FS_NAME_MEM);
       return fs.unlink(fn);
     };
 
@@ -138,7 +138,7 @@ public:
 
   /// Selects the actual File System to be used for directory searches
   void setFileSystemForSearch() {
-    DefaultRegistry.setFileSystemForSearch(this);
+    Registry::DefaultRegistry().setFileSystemForSearch(this);
   }
 
   /// file is valid if it has been added
@@ -158,9 +158,9 @@ public:
   bool add(const char *name, const void *data, size_t len) {
     const char *name_internal = internalFileName(name, true);
     FS_LOGI("add: name='%s' len=%d", name_internal, len);
-    if (&DefaultRegistry.fileSystem(name) != this) {
+    if (&Registry::DefaultRegistry().fileSystem(name) != this) {
       FS_LOGE("File %s not vaid for  %s in %s", name, this->pathPrefix(),
-              DefaultRegistry.fileSystem(name).name());
+              Registry::DefaultRegistry().fileSystem(name).name());
       return false;
     }
     RegEntry *entry = new RegEntry();
@@ -195,7 +195,7 @@ public:
       FS_LOGW("open: file '%s' does not exist", path);
       return -1;
     }
-    RegEntry &entry = DefaultRegistry.openFile(path, *this);
+    RegEntry &entry = Registry::DefaultRegistry().openFile(path, *this);
     // make content available in open files
     if (&entry == &NoRegEntry) {
       FS_LOGW("open: entry invalid: %s", path);
@@ -223,7 +223,7 @@ public:
       return 0;
     }
     // If we did not find any content we return 0
-    RegEntry &entry = DefaultRegistry.getEntry(fd);
+    RegEntry &entry = Registry::DefaultRegistry().getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr) {
       FS_LOGW("No content for %s", entry.file_name);
@@ -247,7 +247,7 @@ public:
   off_t tell(int fd) override {
     FS_LOGI("tell: fd='%d'", fd);
     // If we did not find any content we return 0
-    RegEntry &entry = DefaultRegistry.getEntry(fd);
+    RegEntry &entry = Registry::DefaultRegistry().getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr) {
       FS_LOGW("No content for %s", entry.file_name);
@@ -258,13 +258,13 @@ public:
 
   int close(int fd) override {
     FS_LOGI("close: fd='%d' ", fd);
-    DefaultRegistry.closeFile(fd);
+    Registry::DefaultRegistry().closeFile(fd);
     return 0;
   }
 
   int fstat(int fd, struct stat *st) override {
     FS_LOGI("fstat: fd='%d' ", fd);
-    RegEntry &entry = DefaultRegistry.getEntry(fd);
+    RegEntry &entry = Registry::DefaultRegistry().getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr || !*p_memory) {
       return -1;
@@ -293,7 +293,7 @@ public:
 
   off_t lseek(int fd, off_t offset, int whence) override {
     FS_LOGI("lseek: fd='%%' ", fd);
-    RegEntry &entry = DefaultRegistry.getEntry(fd);
+    RegEntry &entry = Registry::DefaultRegistry().getEntry(fd);
     RegContentMemory *p_memory = getContent(entry);
     if (p_memory == nullptr) {
       return -1;

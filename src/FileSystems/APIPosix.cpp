@@ -10,41 +10,41 @@ extern "C" int _stat(const char *pathname, struct stat *statbuf);
 extern "C" int _open(const char *name, int flags, int mode);
 
 void *mem_map(const char *path, size_t *p_size) {
-  return file_systems::DefaultRegistry.fileSystemByName("FileSystemMemory")
+  return file_systems::Registry::DefaultRegistry().fileSystemByName("FileSystemMemory")
       .mem_map(path, p_size);
 }
 
 int open(const char *name, int flags, ...) {
-  return file_systems::DefaultRegistry.fileSystem(name).open(name, flags, 0);
+  return file_systems::Registry::DefaultRegistry().fileSystem(name).open(name, flags, 0);
 }
 
 int close(int file) {
-  return file_systems::DefaultRegistry.fileSystem(file).close(file);
+  return file_systems::Registry::DefaultRegistry().fileSystem(file).close(file);
 }
 
 int fstat(int file, struct stat *statbuf) {
-  return file_systems::DefaultRegistry.fileSystem(file).fstat(file, statbuf);
+  return file_systems::Registry::DefaultRegistry().fileSystem(file).fstat(file, statbuf);
 }
 
 int stat(const char *pathname, struct stat *statbuf) {
-  return file_systems::DefaultRegistry.fileSystem(pathname).stat(pathname,
+  return file_systems::Registry::DefaultRegistry().fileSystem(pathname).stat(pathname,
                                                                  statbuf);
 }
 
 int read(int file, void *ptr, size_t len) {
-  return file_systems::DefaultRegistry.fileSystem(file).read(file, ptr, len);
+  return file_systems::Registry::DefaultRegistry().fileSystem(file).read(file, ptr, len);
 }
 
 int write(int file, const void *ptr, size_t len) {
-  return file_systems::DefaultRegistry.fileSystem(file).write(file, ptr, len);
+  return file_systems::Registry::DefaultRegistry().fileSystem(file).write(file, ptr, len);
 }
 
 off_t lseek(int file, off_t offset, int mode) {
-  return file_systems::DefaultRegistry.fileSystem(file).lseek(file, offset, mode);
+  return file_systems::Registry::DefaultRegistry().fileSystem(file).lseek(file, offset, mode);
 }
 
 DIR *opendir(const char *name) {
-  return file_systems::DefaultRegistry.fileSystem(name).opendir(name);
+  return file_systems::Registry::DefaultRegistry().fileSystem(name).opendir(name);
 }
 
 int closedir(DIR *dirp) {
@@ -60,7 +60,7 @@ struct dirent *readdir(DIR *dirp) {
 }
 
 int unlink(const char *pathname) {
-  return file_systems::DefaultRegistry.fileSystem(pathname).unlink(pathname);
+  return file_systems::Registry::DefaultRegistry().fileSystem(pathname).unlink(pathname);
 }
 
 

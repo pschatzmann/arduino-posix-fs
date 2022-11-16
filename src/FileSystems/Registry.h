@@ -189,12 +189,18 @@ public:
     return NoFileSystem;
   }
 
+  // provides access to default Registry (singleton)
+  static Registry& DefaultRegistry(){
+    static Registry singleton;
+    return singleton;
+  };
+
 protected:
   FileSystemBase *search_file_system;
   // Shared vector for all open files
-  static Vector<RegEntry *> open_files;
+  Vector<RegEntry *> open_files;
   // Shared vector for all file systems
-  static Vector<FileSystemBase *> file_systems;
+  Vector<FileSystemBase *> file_systems;
 
   // Finds an empty stop in the open files list
   int findOpenEmpty() {
@@ -211,6 +217,5 @@ protected:
   }
 };
 
-extern Registry DefaultRegistry;
 
 } // namespace file_systems

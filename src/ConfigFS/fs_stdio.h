@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+void* espeak_mem_map(const char* path, int* len); 
+
 struct stat;
 // original functioins
 int open(const char *name, int flags, ...);
@@ -24,6 +26,7 @@ int read(int file, void *ptr, size_t len);
 int write(int file, const void *ptr, size_t len);
 off_t lseek(int fd, off_t offset, int mode);
 
+
 #ifdef FS_USE_F_INTERNAL
 // potentially replaced functions
 FILE *fopen_i(const char *path, const char *mode);
@@ -31,7 +34,7 @@ size_t fread_i(void *buffer, size_t size, size_t count, FILE *stream);
 char *fgets_i(char *buffer, int size, FILE *stream);
 int fclose_i(FILE *fp);
 int fseek_i(FILE *stream, long int offset, int whence);
-int getc_i(FILE *stream);
+int fgetc_i(FILE *stream);
 #endif
 
 #ifdef __cplusplus
