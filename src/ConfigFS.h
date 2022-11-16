@@ -8,21 +8,6 @@
 #  define LOG_METHOD __PRETTY_FUNCTION__
 #endif
 
-// ********** Support for multiple Compilation Units *****
-// Change USE_INLINE_VARS to 0 if inline variables are not supported
-#if !defined(USE_INLINE_VARS)
-#  if __cpp_inline_variables >= 201606
-#    define USE_INLINE_VARS 1
-#  else
-#    define USE_INLINE_VARS 0
-#  endif
-#endif
-
-#if USE_INLINE_VARS && !defined(INGNORE_INLINE_VARS)
-#  define INLINE_VAR static inline 
-#else
-#  define INLINE_VAR 
-#endif
 
 // ********** OSX/Linux **************
 #ifdef IS_DESKTOP
