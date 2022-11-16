@@ -16,7 +16,7 @@ file(GLOB_RECURSE SRC_LIST_CPP CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.c
 add_library (arduino-posix-fs ${SRC_LIST_CPP})
 
 #target_compile_options(arduino-posix-fs PRIVATE -Wdouble-promotion)
-target_compile_definitions(arduino-posix-fs PUBLIC -DIS_DESKTOP )
+target_compile_definitions(arduino-posix-fs PUBLIC -DIS_DESKTOP -DFS_LOGGING_ACTIVE=0 )
 
 # define location for header files
 target_include_directories(arduino-posix-fs PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )

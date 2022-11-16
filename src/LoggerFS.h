@@ -1,8 +1,9 @@
 #pragma once
+#include "ConfigFS.h"
+#if FS_LOGGING_ACTIVE
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#include "ConfigFS.h"
 #include "Arduino.h"
 
 namespace file_systems {
