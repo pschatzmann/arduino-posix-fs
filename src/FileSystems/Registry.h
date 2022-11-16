@@ -192,9 +192,9 @@ public:
 protected:
   FileSystemBase *search_file_system;
   // Shared vector for all open files
-  Vector<RegEntry *> open_files;
+  static Vector<RegEntry *> open_files;
   // Shared vector for all file systems
-  Vector<FileSystemBase *> file_systems;
+  static Vector<FileSystemBase *> file_systems;
 
   // Finds an empty stop in the open files list
   int findOpenEmpty() {
