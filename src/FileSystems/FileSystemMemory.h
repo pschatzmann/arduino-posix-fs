@@ -136,7 +136,6 @@ public:
 #endif
   }
 
-  virtual bool is_readonly() { return true; }
   /// Selects the actual File System to be used for directory searches
   void setFileSystemForSearch() {
     DefaultRegistry.setFileSystemForSearch(this);

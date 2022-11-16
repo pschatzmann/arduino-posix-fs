@@ -50,6 +50,16 @@ struct DIR_impl {
 #  include "sys/stat.h"
 #endif
 
+// ********** Compile with CMAKE ************
+#if defined(IS_DESKTOP)
+#  define POSIX_C_METHOD_IMPLEMENTATION 1
+#  define FS_USE_F_INTERNAL
+#  include "dirent.h"
+#  include "fcntl.h"
+#  include "sys/stat.h"
+#  include "ConfigFS/fs_stdio.h"
+#endif
+
 // ********** STM32 **************
 #ifdef ARDUINO_ARCH_STM32
 #  define POSIX_C_METHOD_IMPLEMENTATION 1
@@ -78,3 +88,6 @@ struct DIR_impl {
 // Common Functionaliry
 #include "ConfigFS/fs_common.h"
 
+#ifndef min
+#  define min(A,B) A<B?A:B
+#endif

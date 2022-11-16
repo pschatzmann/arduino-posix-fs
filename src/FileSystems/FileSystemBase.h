@@ -47,7 +47,6 @@ public:
   virtual int unlink(const char *path) { return -1; }
   // method for memory file to get the data content
   virtual void *mem_map(const char *path, size_t *p_size) { return NULL; }
-  virtual bool is_readonly() { return false; }
 
   /// file name w/o leading /
   static const char *standardName(const char *name) {
