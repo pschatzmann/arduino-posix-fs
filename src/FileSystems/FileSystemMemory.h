@@ -237,7 +237,8 @@ public:
       return 0;
     }
     // Copy requested data
-    int len = min(size, p_memory->size - pos);
+    int size_min_pos = p_memory->size - pos;
+    int len = size<size_min_pos?size : size_min_pos;
     p_memory->current_pos += len;
     memmove(data, p_memory->data + pos, len);
     FS_LOGD("=> read: pos=%d size=%d fd=%d -> %d", pos, (int)size, fd, len);

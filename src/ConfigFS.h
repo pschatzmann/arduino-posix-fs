@@ -25,7 +25,6 @@
 #  define SEEK_MODE_SUPPORTED
 #  define USE_DUMMY_SD_IMPL
 #  define SUPPORTS_SD
-#  include "FS.h"
 #  include "esp_vfs.h"
 #endif
 
@@ -81,6 +80,3 @@ struct DIR_impl {
 // Common Functionaliry
 #include "ConfigFS/fs_common.h"
 
-#ifndef min
-#  define min(A,B) A<B?A:B
-#endif
