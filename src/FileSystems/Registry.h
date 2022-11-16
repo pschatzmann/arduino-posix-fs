@@ -67,9 +67,9 @@ struct RegEntry {
 };
 
 // Invalid RegEntry
-inline static RegEntry NoRegEntry;
+INLINE_VAR RegEntry NoRegEntry;
 // Invalid FileSystem
-inline static FileSystemBase NoFileSystem("/null");
+INLINE_VAR FileSystemBase NoFileSystem("/null");
 
 /**
  * @brief Registry which manages open files
@@ -192,9 +192,9 @@ public:
 protected:
   FileSystemBase *search_file_system;
   // Shared vector for all open files
-  inline static Vector<RegEntry *> open_files;
+  INLINE_VAR Vector<RegEntry *> open_files;
   // Shared vector for all file systems
-  inline static Vector<FileSystemBase *> file_systems;
+  INLINE_VAR Vector<FileSystemBase *> file_systems;
 
   // Finds an empty stop in the open files list
   int findOpenEmpty() {
@@ -211,6 +211,6 @@ protected:
   }
 };
 
-inline static Registry DefaultRegistry;
+INLINE_VAR Registry DefaultRegistry;
 
 } // namespace file_systems

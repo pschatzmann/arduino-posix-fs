@@ -45,7 +45,7 @@ protected:
   Print *p_out = &FS_LOG_PORT;
 };
 
-inline FSLoggerClass FSLogger;
+INLINE_VAR FSLoggerClass FSLogger;
 
 #if FS_LOGGING_ACTIVE
 #  define FS_LOGD(fmt, ...) file_systems::FSLogger.log(FSDebug, fmt, ##__VA_ARGS__)
