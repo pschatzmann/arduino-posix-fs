@@ -48,7 +48,8 @@ protected:
 
 extern FSLoggerClass FSLogger;
 
-#if FS_LOGGING_ACTIVE
+} // namespace arduino_FS
+
 #  define FS_LOGD(fmt, ...) file_systems::FSLogger.log(FSDebug, fmt, ##__VA_ARGS__)
 #  define FS_LOGI(fmt, ...) file_systems::FSLogger.log(FSInfo, fmt, ##__VA_ARGS__)
 #  define FS_LOGW(fmt, ...) file_systems::FSLogger.log(FSWarning, fmt, ##__VA_ARGS__)
@@ -56,14 +57,14 @@ extern FSLoggerClass FSLogger;
 #  define FS_TRACED() file_systems::FSLogger.log(FSDebug, LOG_METHOD)
 #  define FS_TRACEI() file_systems::FSLogger.log(FSInfo, LOG_METHOD)
 #  define FS_TRACEE() file_systems::FSLogger.log(FSError, LOG_METHOD)
+
 #else
 #  define FS_LOGD(fmt, ...) 
 #  define FS_LOGI(fmt, ...) 
 #  define FS_LOGW(fmt, ...) 
-#  define FS_LOGE(fmt, ...) file_systems::FSLogger.log(FSError, fmt, ##__VA_ARGS__)
+#  define FS_LOGE(fmt, ...) 
 #  define FS_TRACED() 
 #  define FS_TRACEI() 
 #  define FS_TRACEE() 
 #endif
 
-} // namespace arduino_FS

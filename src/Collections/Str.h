@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>     /* atoi */
 #include "LoggerFS.h"
 
 namespace file_systems {

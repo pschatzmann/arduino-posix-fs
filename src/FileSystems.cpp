@@ -5,7 +5,9 @@
 namespace file_systems {
 
 // defining global variables
+#if FS_LOGGING_ACTIVE
 FSLoggerClass FSLogger;
+#endif
 Registry DefaultRegistry;
 
 }
