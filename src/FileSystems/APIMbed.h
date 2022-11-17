@@ -147,7 +147,7 @@ public:
 
   int mount(mbed::BlockDevice *bd = nullptr) {
     FS_TRACEI();
-    FileSystemBase &fs = file_systems::DefaultRegistry.fileSystem(name);
+    FileSystemBase &fs = file_systems::Registry::DefaultRegistry().fileSystem(name);
     if (!fs) {
       FS_LOGE("mount failed");
 
