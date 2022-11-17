@@ -13,7 +13,9 @@
 #ifdef IS_DESKTOP
 #  include <sys/stat.h>
 #  include <dirent.h>
-#  define POSIX_C_METHOD_IMPLEMENTATION 1
+#  ifndef POSIX_C_METHOD_IMPLEMENTATION
+#    define POSIX_C_METHOD_IMPLEMENTATION 1
+#  endif
 #  define FS_USE_F_INTERNAL
 #  include "ConfigFS/fs_stdio.h"
 #endif
