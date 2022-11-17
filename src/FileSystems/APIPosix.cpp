@@ -19,10 +19,12 @@ int open(const char *name, int flags, ...) {
 }
 
 int close(int file) {
+  if (file<0) return file;
   return file_systems::Registry::DefaultRegistry().fileSystem(file).close(file);
 }
 
 int fstat(int file, struct stat *statbuf) {
+  if (file<0) return file;
   return file_systems::Registry::DefaultRegistry().fileSystem(file).fstat(file, statbuf);
 }
 
@@ -32,14 +34,17 @@ int stat(const char *pathname, struct stat *statbuf) {
 }
 
 int read(int file, void *ptr, size_t len) {
+  if (file<0) return file;
   return file_systems::Registry::DefaultRegistry().fileSystem(file).read(file, ptr, len);
 }
 
 int write(int file, const void *ptr, size_t len) {
+  if (file<0) return file;
   return file_systems::Registry::DefaultRegistry().fileSystem(file).write(file, ptr, len);
 }
 
 off_t lseek(int file, off_t offset, int mode) {
+  if (file<0) return file;
   return file_systems::Registry::DefaultRegistry().fileSystem(file).lseek(file, offset, mode);
 }
 
