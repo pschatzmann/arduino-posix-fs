@@ -4,6 +4,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef ESP32
+#  undef B0
+#  undef B110
+#  undef B1000000
+#endif
 #include "Arduino.h"
 
 namespace file_systems {
