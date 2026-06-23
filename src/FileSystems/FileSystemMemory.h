@@ -154,7 +154,7 @@ public:
     return false;
   }
 
-  /// adds a in memory file
+  /// adds a in memory file (updates existing entry if name already exists)
   bool add(const char *name, const void *data, size_t len) {
     const char *name_internal = internalFileName(name, true);
     FS_LOGI("add: name='%s' len=%d", name_internal, len);
@@ -162,6 +162,15 @@ public:
       FS_LOGE("File %s not vaid for  %s in %s", name, this->pathPrefix(),
               Registry::DefaultRegistry().fileSystem(name).name());
       return false;
+    }
+    // update existing entry if name already registered
+    RegEntry &existing = getEntry(name_internal);
+    if (existing) {
+      FS_LOGI("add: updating existing entry '%s'", name_internal);
+      RegContentMemory *content = static_cast<RegContentMemory *>(existing.content);
+      content->data = (uint8_t *)data;
+      content->size = len;
+      return true;
     }
     RegEntry *entry = new RegEntry();
     entry->p_file_system = this;
