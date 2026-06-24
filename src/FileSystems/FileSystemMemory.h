@@ -179,7 +179,8 @@ public:
     content->data = (uint8_t *)data;
     content->size = len;
     // setup entry
-    entry->file_name = name_internal;
+    entry->file_name = strdup(name_internal);
+    entry->file_name_owned = true;
     entry->content = content;
     files.push_back(entry);
     FS_LOGD("files: %d", files.size());

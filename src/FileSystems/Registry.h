@@ -52,12 +52,18 @@ struct RegEntry {
       delete content;
       content = nullptr;
     }
+    if (file_name_owned) {
+      free((void *)file_name);
+      file_name = nullptr;
+    }
   }
   int memory_guard = 12345;
   /// reference to the file system
   FileSystemBase *p_file_system = nullptr;
   /// the name of the file
   const char *file_name = nullptr;
+  /// true if file_name was allocated and must be freed
+  bool file_name_owned = false;
   /// pointer to specific content object
   RegContent *content = nullptr;
   /// index in the vector of open files
