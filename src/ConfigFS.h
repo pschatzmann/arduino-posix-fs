@@ -12,12 +12,16 @@
 // ********** OSX/Linux **************
 #ifdef IS_DESKTOP
 #  include <sys/stat.h>
-#  include <dirent.h>
+// Not <dirent.h>: the host libc's DIR is an opaque type, but Registry.h
+// derives DIR_BASE from DIR and this library provides its own
+// opendir()/readdir()/closedir(), so it needs a complete DIR type it
+// controls -- the same one already used for TARGET_RP2040.
 #  ifndef POSIX_C_METHOD_IMPLEMENTATION
 #    define POSIX_C_METHOD_IMPLEMENTATION 1
 #  endif
 #  define FS_USE_F_INTERNAL
 #  include "ConfigFS/fs_stdio.h"
+#  include "ConfigFS/fs_dirent.h"
 #endif
 
 // ********** ESP33 **************
