@@ -26,9 +26,12 @@ size_t fread_i(void *buffer, size_t size, size_t count, FILE *stream) {
   return read(((fs_internal_file_t *)stream)->fd, buffer, size * count);
 }
 
-// Reads a single charac
+// Reads a single character. Must use unsigned char so that bytes >= 0x80
+// (e.g. UTF-8 continuation/lead bytes) are not sign-extended to negative
+// values, which fgets_i would otherwise misinterpret as EOF/error and use
+// to truncate the line early.
 int fgetc_i(FILE *stream) {
-  char c;
+  unsigned char c;
   size_t len = fread_i(&c, 1, 1, stream);
   return len == 1 ? c : -1;
 }
