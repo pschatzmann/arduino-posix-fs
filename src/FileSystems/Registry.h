@@ -33,6 +33,11 @@ struct DIR_BASE : public DIR {
  */
 struct RegContent {
   RegContentType id = ContentUndefined;
+  // RegEntry deletes through a RegContent*, but subclasses (e.g.
+  // RegContentMemory, RegContentFile) add their own members -- without a
+  // virtual destructor that delete is undefined behavior (it frees only
+  // sizeof(RegContent) worth of memory / skips the subclass destructor).
+  virtual ~RegContent() = default;
 };
 
 /**
