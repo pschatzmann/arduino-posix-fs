@@ -113,7 +113,13 @@ public:
     FS_TRACED();
     RegEntry *new_entry = new RegEntry();
     new_entry->p_file_system = &fs;
-    new_entry->file_name = path;
+    // path is often a caller's stack-local buffer (e.g. espeak-ng's
+    // LoadVoice() builds the path in a local char[]) that is only valid for
+    // the duration of the open() call. Storing the raw pointer leaves a
+    // dangling reference once that stack frame is reused, which later shows
+    // up as garbage file names / bogus fileIDs in logging and lookups.
+    new_entry->file_name = strdup(path);
+    new_entry->file_name_owned = true;
 
     int idx = findOpenEmpty();
 
