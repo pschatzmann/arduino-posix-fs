@@ -129,6 +129,11 @@ public:
   };
 
   ~FileSystemMemory() {
+    // release the entries allocated by add()
+    for (RegEntry *entry : files) {
+      delete entry;
+    }
+    files.clear();
 #if defined(FS_IS_MBED)
     if (p_mbed != nullptr) {
       delete p_mbed;
